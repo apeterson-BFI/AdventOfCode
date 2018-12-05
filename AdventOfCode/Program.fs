@@ -4,7 +4,7 @@
 namespace AdventOfCode
 
 module Main = 
-    open Day4
+    open Day5
 
     [<EntryPoint>]
     let main argv = 
@@ -26,11 +26,14 @@ module Main =
 //        
 //        Seq.iter (fun i -> printfn "%i" i) nonoverlapIDs
 
-        do printfn "Part 1 Guard %i" sleepyGuard
-        do printfn "Part 1 Minute %i" sleepyGuardMinute
-        do printfn "Part 1 Times %i" guardMinute 
-        do printfn "Part 2 Guard %i" sGuard
-        do printfn "Part 2 Minute %i" sMinute
-        do printfn "Part 2 Times %i" sGuardMinute
+//        do printfn "Part 1 Guard %i" sleepyGuard
+//        do printfn "Part 1 Minute %i" sleepyGuardMinute
+//        do printfn "Part 1 Times %i" guardMinute 
+//        do printfn "Part 2 Guard %i" sGuard
+//        do printfn "Part 2 Minute %i" sMinute
+//        do printfn "Part 2 Times %i" sGuardMinute
+
+        do printfn "%i" (product2.Length)
+        do printfn "%i" (minL)
 
         0 // return an integer exit code

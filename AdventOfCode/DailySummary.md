@@ -51,6 +51,18 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 
 * Moderately Difficult (**)
 
+## Day 5
+* ranks 8019 / 7694
+* done by 07:48:35
+* 81 LOC
+* Finding an efficient way to repetitive react strings
+* Performance analysis and optimization
+* I had three versions of the main algorithm
+* V1 - recursive on each line, recursive on the reapplication level (VERY SLOW)
+* V2 - Regexes for each iteration, recursive for reapplication (SLOW)
+* V3 - Realized you can completely react - react - react locally, moving across the string once
+* This was more than 10 times faster.
+* Moderately Difficult (**)
 
 # Charts
 
@@ -59,6 +71,7 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 2. Day 2 - **
 3. Day 3 - ****************
 4. Day 4 - *****
+5. Day 5 - ********
 
 ### Part 1 vs Part 2
 
@@ -66,7 +79,9 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 2. Day 2 - 2398 to 2281 : -117
 3. Day 3 - 16477 to 15360 : -1117
 4. Day 4 - 5786 to 5448 : -338
+5. Day 5 - 8019 to 7694 : -325
 
 So I'm getting a better ranking on the 2nd part of the day, universally, so far.
 
-For day 3 and day 4, the second part was easy compared to the setup of part 1
+For day 3 and day 4, the second part was easy compared to the setup of part 1.
+For day 5, the second part took quite a while, and I still got a better rank on it.
