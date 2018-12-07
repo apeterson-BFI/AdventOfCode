@@ -12,20 +12,6 @@ module Day5 =
     let rawUnits = 
         File.ReadAllText("Day5input.txt")
 
-    // Take passes through the code, removing any consecutive segments with a lower case Leter followed by the same Cap letter, or a Cap letter followed by the lower case letter
-    // Keep doing this until nothing is removed.
-
-//    let reactPattern = new Regex("aA|Aa|bB|Bb|cC|Cc|dD|Dd|eE|Ee|fF|Ff|gG|Gg|hH|Hh|iI|Ii|jJ|Jj|kK|Kk|lL|Ll|mM|Mm|nN|Nn|oO|Oo|pP|Pp|qQ|Qq|rR|Rr|sS|Ss|tT|Tt|uU|Uu|vV|Vv|wW|Ww|xX|Xx|yY|Yy|zZ|Zz")
-//
-//    let rec rReact (s : string) = 
-//        let news = reactPattern.Replace(s, "")
-//
-//        if s = news
-//        then s
-//        else rReact news
-//
-//    let product = rReact rawUnits
-
     let reactTest (c1 : char) (c2 : char) = 
         Char.ToLower(c1) = Char.ToLower(c2) && c1 <> c2
  

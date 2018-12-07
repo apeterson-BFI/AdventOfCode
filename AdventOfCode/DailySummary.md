@@ -64,14 +64,42 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 * This was more than 10 times faster.
 * Moderately Difficult (**)
 
+## Day 6
+* ranks 5208 / 4718
+* done by 8:24:05
+* 125 LOC
+* Finding a region closer to a point than all other selected points
+*
+* I was trying to find some smart, super fast algorithm
+* And struggled mightily on this, 
+* until I went back to a brute force solution
+* Which, to my surprise, ran very fast
+*
+* This was difficult because I was looking for a Voronoi approach or some mathematical or compsci reduction
+* It didn't have to be
+* Xtra Difficult (****)
+
+## Day 7
+* ranks 900 / 1212
+* done by 1:48:28
+* 178 LOC
+* Finding an order for Jobs, when Jobs have dependencies on other jobs
+*
+* Part 1 seemed fairly straightforward
+* Part 2 was hard only because I was tired and hacked something together
+* Most LOC of the month so far
+* Moderately Difficult (**)
+
 # Charts
 
-### Ranking Part 1 (* = 1000)
+### Ranking Part 1 (* = 1000, 1-9 = 100 - 900)
 1. Day 1 - *******
 2. Day 2 - **
 3. Day 3 - ****************
 4. Day 4 - *****
 5. Day 5 - ********
+6. Day 6 - *****
+7. Day 7 - 9
 
 ### Part 1 vs Part 2
 
@@ -80,8 +108,10 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 3. Day 3 - 16477 to 15360 : -1117
 4. Day 4 - 5786 to 5448 : -338
 5. Day 5 - 8019 to 7694 : -325
+6. Day 6 - 5208 to 4718 : -490
+7. Day 7 - 900 to 1212: +312
 
-So I'm getting a better ranking on the 2nd part of the day, universally, so far.
+Day 7 broke my streak of improving from part 1 to part 2.
+Its earlier in the day, so the statistical curve I was in was different,
+but also, it took me an extra hour to do part 2.
 
-For day 3 and day 4, the second part was easy compared to the setup of part 1.
-For day 5, the second part took quite a while, and I still got a better rank on it.
