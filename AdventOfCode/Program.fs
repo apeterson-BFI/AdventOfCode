@@ -4,7 +4,7 @@
 namespace AdventOfCode
 
 module Main = 
-    open Day7
+    open Day8
 
     [<EntryPoint>]
     let main argv = 
@@ -37,6 +37,8 @@ module Main =
         //do printfn "%i" (minL)
         //do printfn "%i" score
         //do printfn "%i" closeRegionSize
-        do printfn "%s" letterOrder
-        do printfn "%i" finishTime
+
+        do printfn "%i" mValue
+        do printfn "%i" tmValue
+
         0 // return an integer exit code

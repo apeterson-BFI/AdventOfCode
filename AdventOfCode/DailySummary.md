@@ -90,6 +90,18 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 * Most LOC of the month so far
 * Moderately Difficult (**)
 
+## Day 8
+* ranks 4567 / 4212
+* done by 7:36:47
+* 115 LOC
+* Calculating properties of a nary tree.
+*
+* I stumbled trying to make a perfect functional style with lists
+* Because I was passing the same data to all the children, which was wrong
+* When I changed to a mutable Stack, I was able to solve it,
+* but without the functional purity.
+* Moderately Difficult (**) 
+
 # Charts
 
 ### Ranking Part 1 (* = 1000, 1-9 = 100 - 900)
@@ -100,6 +112,7 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 5. Day 5 - ********
 6. Day 6 - *****
 7. Day 7 - 9
+8. Day 8 - ****
 
 ### Part 1 vs Part 2
 
@@ -110,8 +123,10 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 5. Day 5 - 8019 to 7694 : -325
 6. Day 6 - 5208 to 4718 : -490
 7. Day 7 - 900 to 1212: +312
+8. Day 8 - 4567 to 4212: -355
 
 Day 7 broke my streak of improving from part 1 to part 2.
 Its earlier in the day, so the statistical curve I was in was different,
 but also, it took me an extra hour to do part 2.
 
+Day 8 returned to trend.
