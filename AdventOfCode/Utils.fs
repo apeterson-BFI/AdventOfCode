@@ -16,3 +16,5 @@ module Utils =
         match s with
         | Int32 i -> i
         | _ -> failwith "Text is not an Int32"
+
+    let modulo n m = ((n % m) + m) % m

@@ -100,7 +100,22 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 * Because I was passing the same data to all the children, which was wrong
 * When I changed to a mutable Stack, I was able to solve it,
 * but without the functional purity.
-* Moderately Difficult (**) 
+* Moderately Difficult (**)
+
+## Day 9
+* ranks 2569 / 1981
+* done by 4:19:57
+* 89 LOC (F# part 1), 104 LOC (C# part 2)
+* Playing a game on a circular data structure
+*
+* I used an array implementation for part 1, in F#
+* For part 2, the array solution was very slow.
+* I didn't want to try a circular linked list in F#
+* So I shelled out to C# and was able to quickly right one.
+*
+* The hardest part was understanding the problem description at the beginning.
+*
+* Fairly easy (*)
 
 # Charts
 
@@ -113,6 +128,7 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 6. Day 6 - *****
 7. Day 7 - 9
 8. Day 8 - ****
+9. Day 9 - **
 
 ### Part 1 vs Part 2
 
@@ -124,9 +140,6 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 6. Day 6 - 5208 to 4718 : -490
 7. Day 7 - 900 to 1212: +312
 8. Day 8 - 4567 to 4212: -355
+9. Day 9 - 2569 to 1981: -588
 
-Day 7 broke my streak of improving from part 1 to part 2.
-Its earlier in the day, so the statistical curve I was in was different,
-but also, it took me an extra hour to do part 2.
-
-Day 8 returned to trend.
+I continue to be pretty fast with part 2 relative to the ranking trends.
