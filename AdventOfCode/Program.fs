@@ -4,7 +4,7 @@
 namespace AdventOfCode
 
 module Main = 
-    open Day9
+    open Day10
 
     [<EntryPoint>]
     let main argv = 
@@ -38,9 +38,7 @@ module Main =
         //do printfn "%i" score
         //do printfn "%i" closeRegionSize
         
-        // 424 players; last marble is worth 71144 points
-        let bestScore = playMarbles 424 71144
 
-        do printfn "%i" bestScore
 
+        
         0 // return an integer exit code

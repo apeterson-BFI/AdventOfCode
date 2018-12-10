@@ -117,6 +117,19 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 *
 * Fairly easy (*)
 
+## Day 10
+* ranks 2193 / 2179
+* done by 2:26:36
+* 272 LOC (C#)
+* Finding text in a moving collection of points.
+*
+* I created a Windows Forms application to visualize the points.
+* I thought we had to write an AI recognizer at first.
+*
+* The hardest part was fiddling with the UI, and recognizing that a UI solution was right.
+* Moderately Difficult (**)
+
+
 # Charts
 
 ### Ranking Part 1 (* = 1000, 1-9 = 100 - 900)
@@ -129,6 +142,7 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 7. Day 7 - 9
 8. Day 8 - ****
 9. Day 9 - **
+10. Day 10 - **
 
 ### Part 1 vs Part 2
 
@@ -141,5 +155,6 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 7. Day 7 - 900 to 1212: +312
 8. Day 8 - 4567 to 4212: -355
 9. Day 9 - 2569 to 1981: -588
+10. Day 10 - 2193 to 2179: -14
 
 I continue to be pretty fast with part 2 relative to the ranking trends.
