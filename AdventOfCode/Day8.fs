@@ -103,7 +103,7 @@ module Day8 =
                     | Metadata(i) ->
                         if i <= nodes 
                         then                            
-                            List.item (i - 1) nl
+                            List.nth nl (i - 1)
                             |> valueNode
                         else
                             0

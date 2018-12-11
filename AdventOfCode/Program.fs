@@ -4,7 +4,7 @@
 namespace AdventOfCode
 
 module Main = 
-    open Day10
+    open Day11
 
     [<EntryPoint>]
     let main argv = 
@@ -38,7 +38,11 @@ module Main =
         //do printfn "%i" score
         //do printfn "%i" closeRegionSize
         
+        
+        let (bx, by, bl) = getBestScore ()
 
+        // This L is one lower than the L the program wanted.
+        do printfn "(%i, %i): l:%i, Sc:%i" bx by bl bestScore
 
         
         0 // return an integer exit code

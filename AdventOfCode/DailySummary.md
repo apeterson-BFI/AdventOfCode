@@ -129,6 +129,17 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 * The hardest part was fiddling with the UI, and recognizing that a UI solution was right.
 * Moderately Difficult (**)
 
+## Day 11
+* ranks 5382 / 4801
+* done by 9:25:50
+* Excel part 1, 70 LOC part 2 (F#)
+* Finding square lattice regions with the best sum
+* 
+* I spent a lot of time trying to find a neat mathy / excel solution
+* But for part 2, I just had to get down and dirty, and find a good iterative solution.
+*
+* Moderately Difficult (**)
+* Wouldn't be that bad if I had just gone for this solution first
 
 # Charts
 
@@ -143,6 +154,7 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 8. Day 8 - ****
 9. Day 9 - **
 10. Day 10 - **
+11. Day 11 - *****
 
 ### Part 1 vs Part 2
 
@@ -156,5 +168,6 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 8. Day 8 - 4567 to 4212: -355
 9. Day 9 - 2569 to 1981: -588
 10. Day 10 - 2193 to 2179: -14
+11. Day 11 - 5382 to 4801: -581
 
 I continue to be pretty fast with part 2 relative to the ranking trends.
