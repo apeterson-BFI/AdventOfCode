@@ -141,6 +141,21 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 * Moderately Difficult (**)
 * Wouldn't be that bad if I had just gone for this solution first
 
+## Day 12
+* ranks 709 / 3138 
+* done by 8:19:58
+* F# part 1, Excel part 2
+* 1D cellular automata
+*
+* I really thought I had to design an algorith to run on 50 billion steps.
+* If I would have observed the automata I would have realized its behavior
+* was simple.
+*
+* I had modified my F# solution to try to be fast, and never got it back the right way.
+* I wrote an excel sheet that worked nicely.
+*
+* My best rank yet, in part 1.
+
 # Charts
 
 ### Ranking Part 1 (* = 1000, 1-9 = 100 - 900)
@@ -169,5 +184,11 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 9. Day 9 - 2569 to 1981: -588
 10. Day 10 - 2193 to 2179: -14
 11. Day 11 - 5382 to 4801: -581
+12. Day 12 - 709 to 3138: +2429
 
-I continue to be pretty fast with part 2 relative to the ranking trends.
+Day 12 bucked the ranking trends as I got my best rank with part 1. 
+But part 2, I took too literally and struggled mightily,
+getting a rank 2400 ranks higher.
+
+If you normally get a little bit lower rank
+but sometimes get a lot higher, it balances out in a way.
