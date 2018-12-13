@@ -55,6 +55,7 @@ module Day13 =
     exception Collision of int * int
     
     let colSet = new HashSet<(int * int)>()
+    let wDict = new Dictionary<(int * int), char>()
 
     let doStepForCart (minecart : Cart) = 
         match minecart with
@@ -62,7 +63,6 @@ module Day13 =
             if colSet.Contains((x,y))
             then 
                 ignore (colSet.Remove((x,y)))
-                inJagged.[y].[x] <- w
                 None
             else
                 let o = inJagged.[y].[x]
@@ -111,7 +111,9 @@ module Day13 =
                     | West, '-' -> (x - 1, y, West, I, inJagged.[y].[x - 1])
                     | _, _ -> failwith "Unknown rail"
 
-                inJagged.[y].[x] <- w
+                if wDict.ContainsKey((x, y))
+                then inJagged.[y].[x] <- wDict.Item((x,y))
+                else inJagged.[y].[x] <- w
 
                 let nc = inJagged.[ny].[nx]
 
@@ -120,18 +122,26 @@ module Day13 =
                 | East -> inJagged.[ny].[nx] <- '>'
                 | South -> inJagged.[ny].[nx] <- 'v'
                 | West -> inJagged.[ny].[nx] <- '<'
-
+                
                 if nc = '<' || nc = '>' || nc = '^' || nc = 'v' 
-                then 
+                then
+                    Console.WriteLine("Collision {0},{1}", nx, ny)
                     ignore (colSet.Add((nx, ny)))
+                    inJagged.[ny].[nx] <- wDict.Item((nx, ny))  // restore location to collision to previous content
                     None
                 else
+                    if wDict.ContainsKey((nx,ny)) 
+                    then ()
+                    else wDict.Add((nx, ny), inJagged.[ny].[nx])    
                     Some(Bearing(nx, ny, nH, nI, nw))
 
     let doStep (minecarts : Cart list) =
         match minecarts with
         | [] -> failwith "Exploded all carts"
         | x1 :: [] -> 
+            match x1 with
+            | Bearing(xo, yo,_,_,_) -> Console.WriteLine("last {0},{1}",xo,yo)
+            
             let x1s = doStepForCart x1
 
             match x1s with
@@ -142,6 +152,6 @@ module Day13 =
             |> List.sortBy(function | Bearing(x, y, H, I, w) -> 151 * y + x)
             |> List.choose doStepForCart
 
-    let runMine (n : int)= 
+    let runMine (n : int) = 
         [0 .. n]
         |> List.fold (fun mcl i -> doStep mcl) carts
