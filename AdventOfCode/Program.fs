@@ -4,7 +4,7 @@
 namespace AdventOfCode
 
 module Main = 
-    open Day12
+    open Day13
 
     [<EntryPoint>]
     let main argv = 
@@ -38,7 +38,13 @@ module Main =
         //do printfn "%i" score
         //do printfn "%i" closeRegionSize
         
-
+        let mcRes = 
+            try
+                ignore (runMine 40000)
+                ()
+            with
+            | Collision (x, y) -> 
+                printfn "%i, %i" x y
 
         
         0 // return an integer exit code
