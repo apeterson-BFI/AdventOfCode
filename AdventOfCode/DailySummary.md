@@ -156,6 +156,33 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 *
 * My best rank yet, in part 1.
 
+## Day 13
+* ranks 1342 / 6927
+* done by 12/17
+* 202 LOC
+* Running a minecart simulation
+*
+* The simulation had enough moving parts it could get complicated
+* Misreading the question makes everything more complicated
+*
+* I gave up on this one for several days before coming back to it,
+* cleaning everything up.
+*
+* Difficult (***)
+
+## Day 14
+* ranks 2739 / 6894
+* done by 12/17
+* 110 LOC
+* Tracking a growing list of numbers with a rule for following elves and making new numbers
+*
+* My initial implementation didn't do well with part 2.
+* This was when I gave up on Advent of Code for a while
+*
+* Moderately Difficult (**), but I was not persistent enough
+
+
+
 # Charts
 
 ### Ranking Part 1 (* = 1000, 1-9 = 100 - 900)
@@ -185,10 +212,7 @@ This was a challenge, but not as intense as day 3, partly because of what day 3 
 10. Day 10 - 2193 to 2179: -14
 11. Day 11 - 5382 to 4801: -581
 12. Day 12 - 709 to 3138: +2429
+13. Day 13 - 1342 to 6927: +5585
 
-Day 12 bucked the ranking trends as I got my best rank with part 1. 
-But part 2, I took too literally and struggled mightily,
-getting a rank 2400 ranks higher.
+Ok, the trend has reversed. I've had several horrible part 2 rankings as a result of being stuck in part 2.
 
-If you normally get a little bit lower rank
-but sometimes get a lot higher, it balances out in a way.

@@ -95,6 +95,10 @@
     <Content Include="Day13input.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Day13test.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Day15input.txt" />
     <Compile Include="Utils.fs" />
     <Compile Include="Day1.fs" />
     <Compile Include="Day2.fs" />
@@ -109,6 +113,8 @@
     <Compile Include="Day11.fs" />
     <Compile Include="Day12.fs" />
     <Compile Include="Day13.fs" />
+    <Compile Include="Day14.fs" />
+    <Compile Include="Day15.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <Content Include="packages.config" />

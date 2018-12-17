@@ -12,9 +12,15 @@ module Day13 =
     open System.Data
     open System.Globalization
 
-    let inJagged = 
-        File.ReadAllLines("Day13input.txt")
-        |> Array.map (fun s -> s.ToCharArray())
+    let inLines = File.ReadAllLines("Day13input.txt")
+                  |> Array.map (fun l -> l.ToCharArray())
+
+    let trackSize = 150
+
+    let track = 
+        Array2D.init trackSize trackSize (fun x y -> inLines.[y].[x])
+
+    let underlay = Array2D.copy track
 
     // process carts top to bottom, left to right
     // cart turns left 1st time, straight 2nd time, right third time, then left 4th time and so on
@@ -33,125 +39,164 @@ module Day13 =
     type Cart = 
     | Bearing of int * int * Heading * Intersection * char
 
-    let carts = 
-        inJagged
-        |> Array.mapi 
-            (fun y ca -> 
-                ca 
-                |> Array.mapi 
-                    (fun x c -> 
-                        if c = '^' then Some(Bearing(x, y, North, Left, '|'))
-                        elif c = 'v' then Some(Bearing(x, y, South, Left, '|'))
-                        elif c = '<' then Some(Bearing(x, y, West, Left, '-'))
-                        elif c = '>' then Some(Bearing(x, y, East, Left, '-'))
-                        else None
-                    )
-                |> List.ofArray
-                |> List.choose id
-            )
+    let setupCart (x : int) (y : int) (c : char) = 
+        if c = '^' then 
+            underlay.[x, y] <- '|'
+            Some(Bearing(x, y, North, Left, '|'))
+        elif c = 'v' then 
+            underlay.[x, y] <- '|'
+            Some(Bearing(x, y, South, Left, '|'))
+        elif c = '<' then 
+            underlay.[x, y] <- '-'
+            Some(Bearing(x, y, West, Left, '-'))
+        elif c = '>' then 
+            underlay.[x, y] <- '-'
+            Some(Bearing(x, y, East, Left, '-'))
+        else None        
+
+    let setupRow (y : int) (ca : char[]) = 
+        ca
         |> List.ofArray
-        |> List.collect id
+        |> List.mapi (setupCart y)
+        |> List.choose id
 
-    exception Collision of int * int
-    
-    let colSet = new HashSet<(int * int)>()
-    let wDict = new Dictionary<(int * int), char>()
+    let carts = 
+        track
+        |> Array2D.mapi setupCart
+        |> Seq.cast<Cart option>
+        |> Seq.toList
+        |> List.choose id
 
-    let doStepForCart (minecart : Cart) = 
-        match minecart with
-        | Bearing(x, y, H, I, w) ->
-            if colSet.Contains((x,y))
-            then 
-                ignore (colSet.Remove((x,y)))
-                None
-            else
-                let o = inJagged.[y].[x]
-                let u1 = if y = 0 then ' ' else inJagged.[y - 1].[x]
-                let d1 = if y = inJagged.Length - 1 then ' ' else inJagged.[y + 1].[x]
-                let l1 = if x = 0 then ' ' else inJagged.[y].[x - 1]
-                let r1 = if x = inJagged.[0].Length - 1 then ' ' else inJagged.[y].[x + 1]
-            
-                let (nx, ny, nH, nI, nw) = 
-                    match H, w with
-                    | North, '|' -> (x, y - 1, North, I, inJagged.[y - 1].[x])
-                    | South, '|' -> (x, y + 1, South, I, inJagged.[y + 1].[x])
-                    | East, '|' -> failwith "Illogical rail"
-                    | West, '|' -> failwith "Illogical rail"
-                    | North, '+' -> 
-                        match I with
-                        | Left -> (x - 1, y, West, Straight, inJagged.[y].[x - 1])
-                        | Straight -> (x, y - 1, North, Right, inJagged.[y - 1].[x])
-                        | Right -> (x + 1, y, East, Left, inJagged.[y].[x + 1])
-                    | East, '+' ->
-                        match I with
-                        | Left -> (x, y - 1, North, Straight, inJagged.[y - 1].[x])
-                        | Straight -> (x + 1, y, East, Right, inJagged.[y].[x + 1])
-                        | Right -> (x, y + 1, South, Left, inJagged.[y + 1].[x])
-                    | South, '+' ->
-                        match I with
-                        | Left -> (x + 1, y, East, Straight, inJagged.[y].[x + 1])
-                        | Straight -> (x, y + 1, South, Right, inJagged.[y + 1].[x])
-                        | Right -> (x - 1, y, West, Left, inJagged.[y].[x - 1])
-                    | West, '+' ->
-                        match I with
-                        | Left -> (x, y + 1, South, Straight, inJagged.[y + 1].[x])
-                        | Straight -> (x - 1, y, West, Right, inJagged.[y].[x - 1])
-                        | Right -> (x, y - 1, North, Left, inJagged.[y - 1].[x])
-                    | North, '/' -> (x + 1, y, East, I, inJagged.[y].[x + 1])
-                    | East, '/' -> (x, y - 1, North, I, inJagged.[y - 1].[x])
-                    | South, '/' -> (x - 1, y, West, I, inJagged.[y].[x - 1])
-                    | West, '/' -> (x, y + 1, South, I, inJagged.[y + 1].[x])
-                    | North, '\\' -> (x - 1, y, West, I, inJagged.[y].[x - 1])
-                    | East, '\\' -> (x, y + 1, South, I, inJagged.[y + 1].[x])
-                    | South, '\\' -> (x + 1, y, East, I, inJagged.[y].[x + 1])
-                    | West, '\\' -> (x, y - 1, North, I, inJagged.[y - 1].[x])
-                    | North, '-' -> failwith "Illogical rail"
-                    | East, '-' -> (x + 1, y, East, I, inJagged.[y].[x + 1])
-                    | South,'-' -> failwith "Illogical rail"
-                    | West, '-' -> (x - 1, y, West, I, inJagged.[y].[x - 1])
-                    | _, _ -> failwith "Unknown rail"
+    let takeIntersection (heading : Heading) (inter : Intersection) = 
+        match heading, inter with
+        | North, Left -> (West, Straight)
+        | North, Straight -> (North, Right)
+        | North, Right -> (East, Left)
+        | East, Left -> (North, Straight)
+        | East, Straight -> (East, Right)
+        | East, Right -> (South, Left)
+        | South, Left -> (East, Straight)
+        | South, Straight -> (South, Right)
+        | South, Right -> (West, Left)
+        | West, Left -> (South, Straight)
+        | West, Straight -> (West, Right)
+        | West, Right -> (North, Left)
 
-                if wDict.ContainsKey((x, y))
-                then inJagged.[y].[x] <- wDict.Item((x,y))
-                else inJagged.[y].[x] <- w
+    let goDirection (x : int) (y : int) (H : Heading) = 
+        match H with
+        | North -> (x, y - 1)
+        | East -> (x + 1, y)
+        | South -> (x, y + 1)
+        | West -> (x - 1, y)
 
-                let nc = inJagged.[ny].[nx]
+    let goFwdSlashTurn (x : int) (y : int) (H : Heading) = 
+        let h2 = 
+            match H with
+            | North -> East
+            | East -> North
+            | South -> West
+            | West -> South
 
-                match nH with
-                | North -> inJagged.[ny].[nx] <- '^'
-                | East -> inJagged.[ny].[nx] <- '>'
-                | South -> inJagged.[ny].[nx] <- 'v'
-                | West -> inJagged.[ny].[nx] <- '<'
-                
+        let (x2, y2) = goDirection x y h2
+
+        (x2, y2, h2)
+
+    let goBackSlashTurn (x : int) (y : int) (H : Heading) = 
+        //  \\
+        let h2 = 
+            match H with
+            | North -> West
+            | West -> North
+            | South -> East
+            | East -> South
+
+        let (x2, y2) = goDirection x y h2
+
+        (x2, y2, h2)
+
+    let updateCartStatus (x : int) (y : int) (H : Heading) (I : Intersection) (w : char) = 
+        match H, w with
+        | _, '|' ->
+            let (x2, y2) = goDirection x y H
+            (x2, y2, H, I, track.[x2, y2])
+        | _, '-' ->
+            let (x2, y2) = goDirection x y H
+            (x2, y2, H, I, track.[x2, y2])
+        | _, '+' ->
+            let (h2, i2) = takeIntersection H I
+            let (x2, y2) = goDirection x y h2
+            (x2, y2, h2, i2, track.[x2, y2])
+        | _, '/' ->
+            let (x2, y2, h2) = goFwdSlashTurn x y H
+            (x2, y2, h2, I, track.[x2, y2])
+        | _, '\\' ->
+            let (x2, y2, h2) = goBackSlashTurn x y H
+            (x2, y2, h2, I, track.[x2, y2])
+        | _, _ -> failwith "Unknown rail"
+
+    let moveCart (x : int) (y : int) (nx : int) (ny : int) (H : Heading) = 
+        track.[x, y] <- underlay.[x, y]
+
+        match H with
+        | North -> track.[nx, ny] <- '^'
+        | East -> track.[nx, ny] <- '>'
+        | South -> track.[nx, ny] <- 'v'
+        | West -> track.[nx, ny] <- '<'
+
+    let clearCarts (x : int) (y : int) (cs : Cart list) (completed : Cart list) = 
+        printfn "Collision %i,%i" x y
+        
+        track.[x, y] <- underlay.[x, y]
+        
+        let cs2 = 
+            cs
+            |> List.filter (function Bearing(x2,y2,_,_,_) -> not (x2 = x && y2 = y))
+
+        let completed2 = 
+            completed
+            |> List.filter (function Bearing(x2,y2,_,_,_) -> not (x2 = x && y2 = y))
+        
+        (cs2, completed2)
+
+    let rec doTick (toDo : Cart list) (completed : Cart list) = 
+        match toDo with
+        | [] -> completed
+        | c :: cs -> 
+            match c with
+            | Bearing(x, y, H, I, w) ->
+                let (nx, ny, nH, nI, nw) = updateCartStatus x y H I w
+                let nc = track.[nx, ny]
+
+                moveCart x y nx ny nH
+
                 if nc = '<' || nc = '>' || nc = '^' || nc = 'v' 
-                then
-                    Console.WriteLine("Collision {0},{1}", nx, ny)
-                    ignore (colSet.Add((nx, ny)))
-                    inJagged.[ny].[nx] <- wDict.Item((nx, ny))  // restore location to collision to previous content
-                    None
+                then 
+                    let (cs2, completed2) = clearCarts nx ny cs completed
+
+                    doTick cs2 completed2
                 else
-                    if wDict.ContainsKey((nx,ny)) 
-                    then ()
-                    else wDict.Add((nx, ny), inJagged.[ny].[nx])    
-                    Some(Bearing(nx, ny, nH, nI, nw))
+                    doTick cs (completed @ [Bearing(nx, ny, nH, nI, nw)])
 
-    let doStep (minecarts : Cart list) =
+    let rec runTicks (minecarts : Cart list) = 
         match minecarts with
-        | [] -> failwith "Exploded all carts"
-        | x1 :: [] -> 
-            match x1 with
-            | Bearing(xo, yo,_,_,_) -> Console.WriteLine("last {0},{1}",xo,yo)
+        | [] -> failwith "No carts left"
+        | c :: [] ->
+            match c with
+            | Bearing(x1, y1, _, _, _) ->
+                printfn "One Cart - BS %i,%i" x1 y1
+
+            let ft = doTick minecarts []
+
+            match ft with
+            | [] -> failwith "No carts left"
+            | c2 :: [] ->
+                match c2 with
+                | Bearing(x, y, _, _, _) ->
+                    printfn "One Cart - AS %i,%i" x y
+            | _ -> failwith "Impossible"
+        | _ ->
+            let sortcarts = 
+                minecarts
+                |> List.sortBy(function | Bearing(x, y, _, _, _) -> 151 * y + x)
             
-            let x1s = doStepForCart x1
-
-            match x1s with
-            | Some(Bearing(x,y,_,_,_)) -> raise(Collision(x,y))
-            | None -> failwith "Unexpected collision"
-        | x1 :: (x2 :: xs)-> 
-            minecarts
-            |> List.sortBy(function | Bearing(x, y, H, I, w) -> 151 * y + x)
-            |> List.choose doStepForCart
-
-    let runMine (n : int) = 
-        [0 .. n]
-        |> List.fold (fun mcl i -> doStep mcl) carts
+            runTicks (doTick sortcarts [])
