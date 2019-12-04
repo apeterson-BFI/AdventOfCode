@@ -10,9 +10,26 @@ namespace Adv2020
     {
         static void Main(string[] args)
         {
-            
+            day4Display();
 
             Console.ReadLine();
+        }
+
+        private static void day4Display()
+        {
+            Day4 d4 = new Day4();
+            long answer = d4.getPart1Answer();
+
+            Console.WriteLine("111111 : exp: true, act: {0}", d4.isPart1Valid(111111L));
+            Console.WriteLine("223450 : exp: false, act: {0}", d4.isPart1Valid(223450L));
+            Console.WriteLine("123789 : exp: false, act: {0}", d4.isPart1Valid(123789L));
+
+            Console.WriteLine("P1 Answer: {0}", answer);
+
+            answer = d4.getPart2Answer();
+
+            Console.WriteLine("P2 Answer: {0}", answer);
+
         }
 
         private static void day1Display()
