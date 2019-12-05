@@ -10,8 +10,22 @@ namespace Adv2020
     {
         static void Main(string[] args)
         {
-            day2Display();
+            day3Display();
             Console.ReadLine();
+        }
+
+        private static void day1Display()
+        {
+            Day1 d1 = new Day1();
+            long answer = d1.getPart1Answer();
+
+            Console.WriteLine(answer);
+
+            long testp2 = d1.getRecursiveFuelCost(1969L);
+            Console.WriteLine(testp2);
+
+            answer = d1.getPart2Answer();
+            Console.WriteLine(answer);
         }
 
         private static void day2Display()
@@ -22,6 +36,17 @@ namespace Adv2020
             Console.WriteLine("P1 Answer: {0}", answer);
 
             answer = d2.getPart2Answer();
+            Console.WriteLine("P2 Answer: {0}", answer);
+        }
+
+        private static void day3Display()
+        {
+            Day3 d3 = new Day3();
+            int answer = d3.getPart1Answer();
+
+            Console.WriteLine("P1 Answer: {0}", answer);
+
+            answer = d3.getPart2Answer();
             Console.WriteLine("P2 Answer: {0}", answer);
         }
 
@@ -39,21 +64,6 @@ namespace Adv2020
             answer = d4.getPart2Answer();
 
             Console.WriteLine("P2 Answer: {0}", answer);
-
-        }
-
-        private static void day1Display()
-        {
-            Day1 d1 = new Day1();
-            long answer = d1.getPart1Answer();
-
-            Console.WriteLine(answer);
-
-            long testp2 = d1.getRecursiveFuelCost(1969L);
-            Console.WriteLine(testp2);
-
-            answer = d1.getPart2Answer();
-            Console.WriteLine(answer);
         }
     }
 }
