@@ -24,19 +24,19 @@ namespace Adv2020
                 .ToList();
         }
 
-        public static List<List<long>> readDayLinesAsLongCSV(int day, char split)
+        public static List<List<int>> readDayLinesAsIntCSV(int day, char split)
         {
             var lines = readDayLines(day);
 
-            return lines.Select(l => splitLineToLongCells(l, split))
+            return lines.Select(l => splitLineToIntCells(l, split))
                         .ToList();
         }
 
-        private static List<long> splitLineToLongCells(string line, char split)
+        private static List<int> splitLineToIntCells(string line, char split)
         {
             var splits = line.Split(split);
 
-            return splits.Select(s => Int64.Parse(s)).ToList();
+            return splits.Select(s => Int32.Parse(s)).ToList();
         }
     }
 }
