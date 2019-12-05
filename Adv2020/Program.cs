@@ -10,9 +10,19 @@ namespace Adv2020
     {
         static void Main(string[] args)
         {
-            day4Display();
-
+            day2Display();
             Console.ReadLine();
+        }
+
+        private static void day2Display()
+        {
+            Day2 d2 = new Day2();
+            long answer = d2.getPart1Answer();
+
+            Console.WriteLine("P1 Answer: {0}", answer);
+
+            answer = d2.getPart2Answer();
+            Console.WriteLine("P2 Answer: {0}", answer);
         }
 
         private static void day4Display()
