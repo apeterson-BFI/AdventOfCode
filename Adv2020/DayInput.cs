@@ -23,5 +23,20 @@ namespace Adv2020
                 .Select(l => Int64.Parse(l))
                 .ToList();
         }
+
+        public static List<List<long>> readDayLinesAsLongCSV(int day, char split)
+        {
+            var lines = readDayLines(day);
+
+            return lines.Select(l => splitLineToLongCells(l, split))
+                        .ToList();
+        }
+
+        private static List<long> splitLineToLongCells(string line, char split)
+        {
+            var splits = line.Split(split);
+
+            return splits.Select(s => Int64.Parse(s)).ToList();
+        }
     }
 }

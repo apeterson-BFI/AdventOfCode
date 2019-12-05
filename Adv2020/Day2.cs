@@ -8,5 +8,11 @@ namespace Adv2020
 {
     public class Day2
     {
+        public long getPart1Answer()
+        {
+            List<long> vals = DayInput.readDayLinesAsLongCSV(2, ',')[0];
+
+
+        }
     }
 }
