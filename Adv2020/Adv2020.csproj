@@ -47,11 +47,17 @@
     <Compile Include="Day2.cs" />
     <Compile Include="Day3.cs" />
     <Compile Include="Day4.cs" />
+    <Compile Include="Day5.cs" />
     <Compile Include="DayInput.cs" />
+    <Compile Include="IntCode.cs" />
+    <Compile Include="NumTextUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="day5input.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="App.config" />
     <Content Include="day2input.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
