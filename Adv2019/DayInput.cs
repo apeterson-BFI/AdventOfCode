@@ -16,6 +16,11 @@ namespace Adv2020
             return File.ReadAllLines(filename);
         }
 
+        public static string readDayLine(int day)
+        {
+            return readDayLines(day)[0];
+        }
+
         public static List<long> readDayLinesAsLongs(int day)
         {
             return
