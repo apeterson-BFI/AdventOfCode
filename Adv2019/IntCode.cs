@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.Threading;
 
 namespace Adv2020
 {
@@ -13,8 +15,12 @@ namespace Adv2020
         internal int index;
         internal AddressingMode[] addressingModes;
         internal bool abort;
+        internal bool sub;
 
-        public List<int> Input { get; set; }
+        internal IntCode inputSource;
+        internal IntCode outputDest;
+
+        public ConcurrentQueue<int> Input { get; set; }
 
         public List<int> Output { get; set; }
 
@@ -25,8 +31,9 @@ namespace Adv2020
             index = 0;
             addressingModes = new AddressingMode[3];
             abort = false;
+            sub = false;
 
-            Input = new List<int>();
+            Input = new ConcurrentQueue<int>();
             Output = new List<int>();
         }
 
@@ -52,13 +59,21 @@ namespace Adv2020
 
         public int testLoader(int noun, int verb)
         {
-            initialize(noun, verb);
+            nvInit(noun, verb);
 
             process();
             return memory[0];
         }
 
-        public void initialize(int noun, int verb)
+        public void nvInit(int noun, int verb)
+        {
+            baseInit();
+
+            memory[1] = noun;
+            memory[2] = verb;
+        }
+
+        public void baseInit()
         {
             index = 0;
             abort = false;
@@ -68,35 +83,48 @@ namespace Adv2020
                 memory[i] = rom[i];
             }
 
-            memory[1] = noun;
-            memory[2] = verb;
-            Input = new List<int>();
+            Input = new ConcurrentQueue<int>();
             Output = new List<int>();
         }
 
         public void process()
         {
-            int instruction;
-            int opcode;
-            
             while (!abort)
             {
-                instruction = memory[index];
-                opcode = instruction % 100;
-                setAddressingModes(instruction);
+                doInstruction();
+            }
+        }
 
-                switch(opcode)
-                {
-                    case 1: addOp(); break;
-                    case 2: multOp(); break;
-                    case 3: inputOp(); break;
-                    case 4: outputOp(); break;
-                    case 5: jumpNZOp(); break;
-                    case 6: jumpZOp(); break;
-                    case 7: lessThanOp(); break;
-                    case 8: equalsOp(); break;
-                    case 99: return;
-                }
+        public void subroutine()
+        {
+            sub = true;
+
+            while(sub && !abort)
+            {
+                doInstruction();
+            }
+        }
+
+        private void doInstruction()
+        {
+            int instruction;
+            int opcode;
+
+            instruction = memory[index];
+            opcode = instruction % 100;
+            setAddressingModes(instruction);
+
+            switch (opcode)
+            {
+                case 1: addOp(); break;
+                case 2: multOp(); break;
+                case 3: inputOp(); break;
+                case 4: outputOp(); break;
+                case 5: jumpNZOp(); break;
+                case 6: jumpZOp(); break;
+                case 7: lessThanOp(); break;
+                case 8: equalsOp(); break;
+                case 99: abort = true;  return;
             }
         }
 
@@ -132,14 +160,20 @@ namespace Adv2020
 
         private void inputOp()
         {
-            if (Input.Count == 0)
-            {
-                abort = true;
-                return;
-            }
+            int inp;
 
-            int inp = Input[0];
-            Input.RemoveAt(0);
+            while(!Input.TryDequeue(out inp))
+            {
+                if(inputSource == null)
+                {
+                    abort = true;
+                    return;
+                }
+                else
+                {
+                    Thread.Sleep(20);
+                }
+            }
 
             writePositional(1, inp);
             index += 2;
@@ -150,6 +184,15 @@ namespace Adv2020
             int param1 = (addressingModes[0] == AddressingMode.Position ? loadPositional(1) : loadImmediate(1));
 
             Output.Add(param1);
+            //Console.WriteLine(param1);
+
+            if(outputDest != null)
+            {
+                outputDest.Input.Enqueue(param1);
+
+                sub = false;
+            }
+
             index += 2;
         }
 
