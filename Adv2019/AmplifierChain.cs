@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Adv2020
 {
     public class AmplifierChain
     {
         private Amplifier[] Amplifiers;
+
+        private Thread[] conc;
 
         private int[] phases;
 
@@ -40,9 +43,11 @@ namespace Adv2020
 
         public void cycleSetup()
         {
+ 
             for(int i = 0; i < 5; i++)
             {
-                Amplifiers[i].Phase = i + 5;
+                phases[i] = i + 5;
+                Amplifiers[i].Phase = phases[i];
                 Amplifiers[i].BaseProcessor.inputSource = Amplifiers[((i - 1) % 5 + 5) % 5].BaseProcessor;
                 Amplifiers[i].BaseProcessor.outputDest = Amplifiers[(i + 1) % 5].BaseProcessor;
             }
@@ -50,22 +55,23 @@ namespace Adv2020
 
         public int cycleRun()
         {
-            for(int i = 0; i < Amplifiers.Length; i++)
+            conc = new Thread[5];
+
+            for (int i = 0; i < Amplifiers.Length; i++)
             {
                 Amplifiers[i].Phase = phases[i];
-                Amplifiers[i].BaseProcessor.baseInit();
+                conc[i] = new Thread(Amplifiers[i].start);
+                conc[i].Start();
             }
 
-            int ampIndex = 0;
+            Amplifiers[0].BaseProcessor.Input.Enqueue(0);
 
-            do
+            while(!conc.All(c => c.ThreadState == ThreadState.Stopped))
             {
-                Amplifiers[ampIndex].BaseProcessor.abort = false;
-                Amplifiers[ampIndex].run(ampIndex);
-                ampIndex = (ampIndex + 1) % 5;
-            } while (Amplifiers[4].BaseProcessor.Output.Count == 0);
+                ;
+            }
 
-            return (Amplifiers[4].BaseProcessor.getDiagnostic());
+            return Amplifiers[4].BaseProcessor.getDiagnostic();
         }
 
         public bool nextPhasePattern()
@@ -95,20 +101,27 @@ namespace Adv2020
             {
                 for (int index = 4; index >= 0; index--)
                 {
+                    if(phases[0] == 5 && phases[1] == 9 && phases[2] == 9 && phases[3] == 9 && phases[4] == 9)
+                    {
+                        Console.WriteLine("Here");
+                    }
+
                     phases[index]++;
 
                     if (phases[index] == 10)
-                        phases[index] = 0;
-
-                    if (phases[index] != 0)
-                        break;
-
-                    if (phases.Sum() == 0)
                     {
-                        return false;
+                        phases[index] = 5;
+
+                        if (index == 0)
+                            return false;
                     }
+
+                    if (phases[index] != 5)
+                        break;
                 }
             } while (phases.Distinct().Count() != 5);
+
+            Console.WriteLine("{0}{1}{2}{3}{4}", phases[0], phases[1], phases[2], phases[3], phases[4]);
 
             return true;
         }

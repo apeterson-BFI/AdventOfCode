@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.Threading;
 
 namespace Adv2020
 {
@@ -18,7 +20,7 @@ namespace Adv2020
         internal IntCode inputSource;
         internal IntCode outputDest;
 
-        public List<int> Input { get; set; }
+        public ConcurrentQueue<int> Input { get; set; }
 
         public List<int> Output { get; set; }
 
@@ -31,7 +33,7 @@ namespace Adv2020
             abort = false;
             sub = false;
 
-            Input = new List<int>();
+            Input = new ConcurrentQueue<int>();
             Output = new List<int>();
         }
 
@@ -81,7 +83,7 @@ namespace Adv2020
                 memory[i] = rom[i];
             }
 
-            Input = new List<int>();
+            Input = new ConcurrentQueue<int>();
             Output = new List<int>();
         }
 
@@ -158,21 +160,20 @@ namespace Adv2020
 
         private void inputOp()
         {
-            if(Input.Count == 0)
+            int inp;
+
+            while(!Input.TryDequeue(out inp))
             {
                 if(inputSource == null)
                 {
                     abort = true;
                     return;
                 }
-
-                inputSource.abort = false;
-                inputSource.subroutine();
-
+                else
+                {
+                    Thread.Sleep(20);
+                }
             }
-
-            int inp = Input[0];
-            Input.RemoveAt(0);
 
             writePositional(1, inp);
             index += 2;
@@ -182,12 +183,12 @@ namespace Adv2020
         {
             int param1 = (addressingModes[0] == AddressingMode.Position ? loadPositional(1) : loadImmediate(1));
 
-            Console.WriteLine(param1);
             Output.Add(param1);
+            //Console.WriteLine(param1);
 
             if(outputDest != null)
             {
-                outputDest.Input.Add(param1);
+                outputDest.Input.Enqueue(param1);
 
                 sub = false;
             }

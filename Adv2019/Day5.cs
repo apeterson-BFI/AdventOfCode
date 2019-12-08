@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
 
 namespace Adv2020
 {
@@ -17,7 +18,8 @@ namespace Adv2020
 
         public int getPart1Answer()
         {
-            intCode.Input = new List<int>() { 1 };
+            intCode.Input = new ConcurrentQueue<int>();
+            intCode.Input.Enqueue(1);
             intCode.process();
 
             return intCode.getDiagnostic();
@@ -25,7 +27,8 @@ namespace Adv2020
 
         public int getPart2Answer()
         {
-            intCode.Input = new List<int>() { 5 };
+            intCode.Input = new ConcurrentQueue<int>();
+            intCode.Input.Enqueue(5);
             intCode.process();
 
             return intCode.getDiagnostic();
