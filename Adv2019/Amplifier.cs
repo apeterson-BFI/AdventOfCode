@@ -11,12 +11,12 @@ namespace Adv2020
     {
         public IntCode BaseProcessor { get; set; }
 
-        public int Phase { get; set; }
+        public long Phase { get; set; }
 
-        internal void run(int inp)
+        internal void run(long inp)
         {
             BaseProcessor.baseInit();
-            BaseProcessor.Input = new ConcurrentQueue<int>();
+            BaseProcessor.Input = new ConcurrentQueue<long>();
             BaseProcessor.Input.Enqueue(Phase);
             BaseProcessor.Input.Enqueue(inp);
             BaseProcessor.process();
@@ -25,7 +25,7 @@ namespace Adv2020
         internal void start()
         {
             BaseProcessor.baseInit();
-            BaseProcessor.Input = new ConcurrentQueue<int>();
+            BaseProcessor.Input = new ConcurrentQueue<long>();
             BaseProcessor.Input.Enqueue(Phase);
             BaseProcessor.process();
         }

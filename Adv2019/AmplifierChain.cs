@@ -13,12 +13,12 @@ namespace Adv2020
 
         private Thread[] conc;
 
-        private int[] phases;
+        private long[] phases;
 
-        public AmplifierChain(List<int> rom)
+        public AmplifierChain(List<long> rom)
         {
             Amplifiers = new Amplifier[5];
-            phases = new int[5];
+            phases = new long[5];
 
             for(int i = 0; i < 5; i++)
             {
@@ -27,9 +27,9 @@ namespace Adv2020
             }
         }
 
-        public int testRun()
+        public long testRun()
         {
-            int outval = 0;
+            long outval = 0;
 
             for (int i = 0; i < Amplifiers.Length; i++)
             {
@@ -53,7 +53,7 @@ namespace Adv2020
             }
         }
 
-        public int cycleRun()
+        public long cycleRun()
         {
             conc = new Thread[5];
 
