@@ -3,46 +3,66 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.Threading;
 
 namespace Adv2020
 {
     public class IntCode
     {
-        internal List<int> rom;
-        internal List<int> memory;
+        internal List<long> rom;
+        internal List<long> memory;
         internal int index;
+        internal int relBase;
         internal AddressingMode[] addressingModes;
         internal bool abort;
+        
+        internal IntCode inputSource;
+        internal IntCode outputDest;
 
-        public List<int> Input { get; set; }
+        public ConcurrentQueue<long> Input { get; set; }
 
-        public List<int> Output { get; set; }
+        public List<long> Output { get; set; }
 
-        public IntCode(List<int> rom)
+        public IntCode(List<long> rom)
         {
-            this.rom = new List<int>(rom);
-            this.memory = new List<int>(rom);
+            this.rom = new List<long>(rom);
+            this.memory = new List<long>();
+
+            for(int i = 0; i < 65536; i++)
+            {
+                if(i < rom.Count)
+                {
+                    memory.Add(rom[i]);
+                }
+                else
+                {
+                    memory.Add(0L);
+                }
+            }
+
             index = 0;
+            relBase = 0;
             addressingModes = new AddressingMode[3];
             abort = false;
 
-            Input = new List<int>();
-            Output = new List<int>();
+            Input = new ConcurrentQueue<long>();
+            Output = new List<long>();
         }
 
-        public Tuple<int, int> goalSeek(int target)
+        public Tuple<long, long> goalSeek(long target)
         {
-            int result;
+            long result;
 
-            for (int noun = 0; noun <= 99; noun++)
+            for (long noun = 0; noun <= 99; noun++)
             {
-                for (int verb = 0; verb <= 99; verb++)
+                for (long verb = 0; verb <= 99; verb++)
                 {
                     result = testLoader(noun, verb);
 
                     if (result == target)
                     {
-                        return new Tuple<int, int>(noun, verb);
+                        return new Tuple<long, long>(noun, verb);
                     }
                 }
             }
@@ -50,57 +70,77 @@ namespace Adv2020
             throw new ArgumentException("Fail");
         }
 
-        public int testLoader(int noun, int verb)
+        public long testLoader(long noun, long verb)
         {
-            initialize(noun, verb);
+            nvInit(noun, verb);
 
             process();
             return memory[0];
         }
 
-        public void initialize(int noun, int verb)
+        public void nvInit(long noun, long verb)
         {
-            index = 0;
-            abort = false;
-
-            for (int i = 0; i < memory.Count; i++)
-            {
-                memory[i] = rom[i];
-            }
+            baseInit();
 
             memory[1] = noun;
             memory[2] = verb;
-            Input = new List<int>();
-            Output = new List<int>();
+        }
+
+        public void baseInit()
+        {
+            index = 0;
+            relBase = 0;
+            abort = false;
+
+            for (int i = 0; i < 65536; i++)
+            {
+                if (i < rom.Count)
+                {
+                    memory[i] = rom[i];
+                }
+                else
+                {
+                    memory[i] = 0L;
+                }
+            }
+
+            Input = new ConcurrentQueue<long>();
+            Output = new List<long>();
         }
 
         public void process()
         {
-            int instruction;
-            int opcode;
-            
             while (!abort)
             {
-                instruction = memory[index];
-                opcode = instruction % 100;
-                setAddressingModes(instruction);
-
-                switch(opcode)
-                {
-                    case 1: addOp(); break;
-                    case 2: multOp(); break;
-                    case 3: inputOp(); break;
-                    case 4: outputOp(); break;
-                    case 5: jumpNZOp(); break;
-                    case 6: jumpZOp(); break;
-                    case 7: lessThanOp(); break;
-                    case 8: equalsOp(); break;
-                    case 99: return;
-                }
+                doInstruction();
             }
         }
 
-        public int getDiagnostic()
+        private void doInstruction()
+        {
+            long instruction;
+            long opcode;
+
+            instruction = memory[index];
+            opcode = instruction % 100L;
+            setAddressingModes(instruction);
+
+            switch (opcode)
+            {
+                case 1: addOp(); break;
+                case 2: multOp(); break;
+                case 3: inputOp(); break;
+                case 4: outputOp(); break;
+                case 5: jumpNZOp(); break;
+                case 6: jumpZOp(); break;
+                case 7: lessThanOp(); break;
+                case 8: equalsOp(); break;
+                case 9: adjustRelBase(); break;
+                case 99: abort = true;  return;
+            }
+        }
+
+        public long getDiagnostic()
         {
             if (Output.Count == 0)
                 throw new ArgumentException();
@@ -110,57 +150,70 @@ namespace Adv2020
 
         private void addOp()
         {
-            int param1 = (addressingModes[0] == AddressingMode.Position ? loadPositional(1) : loadImmediate(1));
-            int param2 = (addressingModes[1] == AddressingMode.Position ? loadPositional(2) : loadImmediate(2));
+            long param1 = loadParameter(1);
+            long param2 = loadParameter(2);
 
-            int result = param1 + param2;
-            writePositional(3, result);
+            long result = param1 + param2;
+            writeParameter(3, result);
 
             index += 4;
         }
 
         private void multOp()
         {
-            int param1 = (addressingModes[0] == AddressingMode.Position ? loadPositional(1) : loadImmediate(1));
-            int param2 = (addressingModes[1] == AddressingMode.Position ? loadPositional(2) : loadImmediate(2));
+            long param1 = loadParameter(1);
+            long param2 = loadParameter(2);
 
-            int result = param1 * param2;
-            writePositional(3, result);
+            long result = param1 * param2;
+            writeParameter(3, result);
 
             index += 4;
         }
 
         private void inputOp()
         {
-            if (Input.Count == 0)
+            long inp;
+
+            while(!Input.TryDequeue(out inp))
             {
-                abort = true;
-                return;
+                if(inputSource == null)
+                {
+                    abort = true;
+                    return;
+                }
+                else
+                {
+                    Thread.Sleep(20);
+                }
             }
 
-            int inp = Input[0];
-            Input.RemoveAt(0);
-
-            writePositional(1, inp);
+            writeParameter(1, inp);
             index += 2;
         }
 
         private void outputOp()
         {
-            int param1 = (addressingModes[0] == AddressingMode.Position ? loadPositional(1) : loadImmediate(1));
+            long param1 = loadParameter(1);
 
             Output.Add(param1);
+            //Console.WriteLine(param1);
+
+            if(outputDest != null)
+            {
+                outputDest.Input.Enqueue(param1);
+            }
+
             index += 2;
         }
 
         private void jumpNZOp()
         {
-            int param1 = (addressingModes[0] == AddressingMode.Position ? loadPositional(1) : loadImmediate(1));
-            int param2 = (addressingModes[1] == AddressingMode.Position ? loadPositional(2) : loadImmediate(2));
+            long param1 = loadParameter(1);
+            long param2 = loadParameter(2);
 
-            if(param1 != 0)
+            if (param1 != 0)
             {
-                index = param2;
+                index = (int)param2;
             }
             else
             {
@@ -170,12 +223,12 @@ namespace Adv2020
 
         private void jumpZOp()
         {
-            int param1 = (addressingModes[0] == AddressingMode.Position ? loadPositional(1) : loadImmediate(1));
-            int param2 = (addressingModes[1] == AddressingMode.Position ? loadPositional(2) : loadImmediate(2));
+            long param1 = loadParameter(1);
+            long param2 = loadParameter(2);
 
             if (param1 == 0)
             {
-                index = param2;
+                index = (int)param2;
             }
             else
             {
@@ -185,23 +238,53 @@ namespace Adv2020
 
         private void lessThanOp()
         {
-            int param1 = (addressingModes[0] == AddressingMode.Position ? loadPositional(1) : loadImmediate(1));
-            int param2 = (addressingModes[1] == AddressingMode.Position ? loadPositional(2) : loadImmediate(2));
+            long param1 = loadParameter(1);
+            long param2 = loadParameter(2);
 
-            writePositional(3, (param1 < param2 ? 1 : 0));
+            writeParameter(3, (param1 < param2 ? 1 : 0));
             index += 4;
         }
 
         private void equalsOp()
         {
-            int param1 = (addressingModes[0] == AddressingMode.Position ? loadPositional(1) : loadImmediate(1));
-            int param2 = (addressingModes[1] == AddressingMode.Position ? loadPositional(2) : loadImmediate(2));
+            long param1 = loadParameter(1);
+            long param2 = loadParameter(2);
 
-            writePositional(3, (param1 == param2 ? 1 : 0));
+            writeParameter(3, (param1 == param2 ? 1 : 0));
             index += 4;
         }
 
-        private int loadPositional(int position)
+        private void adjustRelBase()
+        {
+            long param1 = loadParameter(1);
+
+            relBase += (int)param1;
+            index += 2;
+        }
+
+        private long loadParameter(int index)
+        {
+            switch (addressingModes[index - 1])
+            {
+                case AddressingMode.Immediate: return loadImmediate(index);
+                case AddressingMode.Position: return loadPositional(index);
+                case AddressingMode.Relative: return loadRelative(index);
+                default: throw new ArgumentException();
+            }
+        }
+
+        private void writeParameter(int index, long value)
+        {
+            switch (addressingModes[index - 1])
+            {
+                case AddressingMode.Immediate: throw new ArgumentException("Cannot write immediate");
+                case AddressingMode.Position: writePositional(index, value); break;
+                case AddressingMode.Relative: writeRelative(index, value); break;
+                default: throw new ArgumentException();
+            }
+        }
+
+        private long loadPositional(int position)
         {
             if (index + position >= memory.Count)
             {
@@ -209,7 +292,7 @@ namespace Adv2020
                 return 0;
             }
 
-            int load = memory[index + position];
+            long load = memory[index + position];
 
             if (load >= memory.Count)
             {
@@ -217,11 +300,11 @@ namespace Adv2020
                 return 0;
             }
 
-            int input = memory[load];
+            long input = memory[(int)load];
             return input;
         }
 
-        private int loadImmediate(int position)
+        private long loadRelative(int position)
         {
             if (index + position >= memory.Count)
             {
@@ -229,11 +312,31 @@ namespace Adv2020
                 return 0;
             }
 
-            int input = memory[index + position];
+            long load = memory[index + position];
+
+            if (load >= memory.Count)
+            {
+                abort = true;
+                return 0;
+            }
+
+            long input = memory[(int)(load) + relBase];
             return input;
         }
 
-        private void writePositional(int position, int value)
+        private long loadImmediate(int position)
+        {
+            if (index + position >= memory.Count)
+            {
+                abort = true;
+                return 0;
+            }
+
+            long input = memory[index + position];
+            return input;
+        }
+
+        private void writePositional(int position, long value)
         {
             if (index + position >= memory.Count)
             {
@@ -241,7 +344,7 @@ namespace Adv2020
                 return;
             }
 
-            int save = memory[index + position];
+            long save = memory[index + position];
 
             if (save >= memory.Count)
             {
@@ -249,21 +352,45 @@ namespace Adv2020
                 return;
             }
 
-            memory[save] = value;
+            memory[(int)save] = value;
         }
 
-        private void setAddressingModes(int instruction)
+        private void writeRelative(int position, long value)
+        {
+            if (index + position >= memory.Count)
+            {
+                abort = true;
+                return;
+            }
+
+            long save = memory[index + position];
+
+            if (save >= memory.Count)
+            {
+                abort = true;
+                return;
+            }
+
+            memory[(int)save + relBase] = value;
+        }
+
+        private void setAddressingModes(long instruction)
         {
             int[] ivals = new int[3];
 
             for(int i = 0; i < 3; i++)
             {
-                ivals[i] = NumTextUtil.extractPlace(instruction, i + 2);
+                ivals[i] = NumTextUtil.extractPlaceLong(instruction, i + 2);
             }
 
             for(int i = 0; i < 3; i++)
             {
-                addressingModes[i] = (ivals[i] == 0 ? AddressingMode.Position : AddressingMode.Immediate);
+                switch (ivals[i])
+                {
+                    case 0: addressingModes[i] = AddressingMode.Position; break;
+                    case 1: addressingModes[i] = AddressingMode.Immediate; break;
+                    case 2: addressingModes[i] = AddressingMode.Relative; break;
+                }
             }
         }
     }
@@ -271,6 +398,7 @@ namespace Adv2020
     public enum AddressingMode
     {
         Position,
-        Immediate
+        Immediate,
+        Relative
     }
 }

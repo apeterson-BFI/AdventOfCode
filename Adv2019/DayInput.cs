@@ -16,6 +16,11 @@ namespace Adv2020
             return File.ReadAllLines(filename);
         }
 
+        public static string readDayLine(int day)
+        {
+            return readDayLines(day)[0];
+        }
+
         public static List<long> readDayLinesAsLongs(int day)
         {
             return
@@ -32,6 +37,14 @@ namespace Adv2020
                         .ToList();
         }
 
+        public static List<List<long>> readDayLinesAsLongCSV(int day, char split)
+        {
+            var lines = readDayLines(day);
+
+            return lines.Select(l => splitLineToLongCells(l, split))
+                        .ToList();
+        }
+
         public static List<List<string>> readDayLinesAsTextCSV(int day, char split)
         {
             var lines = readDayLines(day);
@@ -45,6 +58,13 @@ namespace Adv2020
             var splits = line.Split(split);
 
             return splits.Select(s => Int32.Parse(s)).ToList();
+        }
+
+        private static List<long> splitLineToLongCells(string line, char split)
+        {
+            var splits = line.Split(split);
+
+            return splits.Select(s => Int64.Parse(s)).ToList();
         }
 
         private static List<string> splitLineToTextCells(string line, char split)

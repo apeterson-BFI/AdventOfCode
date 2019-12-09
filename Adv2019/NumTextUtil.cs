@@ -28,6 +28,22 @@ namespace Adv2020
             }
         }
 
+        public static int extractPlaceLong(long num, int power)
+        {
+            string numText = num.ToString();
+            int numLength = numText.Length;
+            int targetIndex = numLength - 1 - power;
 
+            if (targetIndex < 0)
+            {
+                return 0;
+            }
+            else
+            {
+                char digit = numText[targetIndex];
+
+                return charInts[digit];
+            }
+        }
     }
 }
