@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Day6.cs" />
     <Compile Include="Amplifier.cs" />
     <Compile Include="AmplifierChain.cs" />
     <Compile Include="Day8.cs" />
@@ -56,6 +57,8 @@
     <Compile Include="Day7.cs" />
     <Compile Include="Day9.cs" />
     <Compile Include="DayInput.cs" />
+    <Compile Include="DirGraphMaster.cs" />
+    <Compile Include="DirGraphNode.cs" />
     <Compile Include="IntCode.cs" />
     <Compile Include="NumTextUtil.cs" />
     <Compile Include="Program.cs" />
@@ -65,6 +68,9 @@
     <Content Include="day5input.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="day6input.txt">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
     <Content Include="day7input.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -78,8 +84,6 @@
     <Content Include="day2input.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="day1input.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
