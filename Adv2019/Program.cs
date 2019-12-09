@@ -10,7 +10,7 @@ namespace Adv2020
     {
         static void Main(string[] args)
         {
-            day5Display();
+            day6Display();
             Console.ReadLine();
         }
 
@@ -75,6 +75,19 @@ namespace Adv2020
 
             Day5 d5p2 = new Day5();
             answer = d5p2.getPart2Answer();
+
+            Console.WriteLine("P2 Answer: {0}", answer);
+        }
+
+        private static void day6Display()
+        {
+            Day6 d6p1 = new Day6();
+            int answer = d6p1.getPart1Answer();
+
+            Console.WriteLine("P1 Answer: {0}", answer);
+
+            Day6 d6p2 = new Day6();
+            answer = d6p2.getPart2Answer();
 
             Console.WriteLine("P2 Answer: {0}", answer);
         }
