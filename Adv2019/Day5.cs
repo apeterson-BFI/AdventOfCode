@@ -13,22 +13,22 @@ namespace Adv2020
 
         public Day5()
         {
-            intCode = new IntCode(DayInput.readDayLinesAsIntCSV(5, ',')[0]);
+            intCode = new IntCode(DayInput.readDayLinesAsLongCSV(5, ',')[0]);
         }
 
-        public int getPart1Answer()
+        public long getPart1Answer()
         {
-            intCode.Input = new ConcurrentQueue<int>();
-            intCode.Input.Enqueue(1);
+            intCode.Input = new ConcurrentQueue<long>();
+            intCode.Input.Enqueue(1L);
             intCode.process();
 
             return intCode.getDiagnostic();
         }
 
-        public int getPart2Answer()
+        public long getPart2Answer()
         {
-            intCode.Input = new ConcurrentQueue<int>();
-            intCode.Input.Enqueue(5);
+            intCode.Input = new ConcurrentQueue<long>();
+            intCode.Input.Enqueue(5L);
             intCode.process();
 
             return intCode.getDiagnostic();

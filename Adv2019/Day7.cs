@@ -12,13 +12,13 @@ namespace Adv2020
 
         public Day7()
         {
-            chain = new AmplifierChain(DayInput.readDayLinesAsIntCSV(7, ',')[0]);
+            chain = new AmplifierChain(DayInput.readDayLinesAsLongCSV(7, ',')[0]);
         }
 
-        public int getPart1Answer()
+        public long getPart1Answer()
         {
-            int bestAnswer = Int32.MinValue;
-            int answer;
+            long bestAnswer = Int64.MinValue;
+            long answer;
 
             do
             {
@@ -32,10 +32,10 @@ namespace Adv2020
             return bestAnswer;
         }
 
-        public int getPart2Answer()
+        public long getPart2Answer()
         {
-            int bestAnswer = Int32.MinValue;
-            int answer;
+            long bestAnswer = Int64.MinValue;
+            long answer;
 
             chain.cycleSetup();
 
