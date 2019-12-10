@@ -11,7 +11,16 @@ namespace Adv2020
     {
         public static string[] readDayLines(int day)
         {
-            string filename = string.Format(@"day{0}input.txt", day);
+            string filename;
+
+            if (day < 0)
+            {
+                filename = string.Format(@"day{0}sample.txt", -day);
+            }
+            else
+            {
+                filename = string.Format(@"day{0}input.txt", day);
+            }
 
             return File.ReadAllLines(filename);
         }

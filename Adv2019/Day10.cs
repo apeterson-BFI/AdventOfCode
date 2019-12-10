@@ -8,8 +8,8 @@ namespace Adv2020
 {
     public class Day10
     {
-        private List<SignedPoint> points;
-        private SignedPoint bestPoint;
+        internal List<SignedPoint> points;
+        internal SignedPoint bestPoint;
         private int bestIndex;
         private Dictionary<Tuple<int, int>, int> dirSQPoints;
         private Dictionary<Tuple<int, int>, List<int>> dirSQLists;
@@ -32,7 +32,9 @@ namespace Adv2020
 
         public int getPart2Answer()
         {
-            Tuple<int, int> dir = new Tuple<int, int>(0, 0);
+            Tuple<double, int, int> dp;
+
+            List<Tuple<double, int, int>> angleList = new List<Tuple<double, int, int>>();
 
             for(int i = 0; i < points.Count; i++)
             {
@@ -43,71 +45,24 @@ namespace Adv2020
                 relPoints[i].Y = points[i].Y - points[bestIndex].Y;
                 relPoints[i].reduce();
 
-                dir = new Tuple<int, int>(relPoints[i].RedX, relPoints[i].RedY);
-
-                if(!dirSQLists.ContainsKey(dir))
-                {
-                    dirSQLists.Add(dir, new List<int>());
-                }
-
-                dirSQLists[dir].Add(relPoints[i].sqMag);
+                angleList.Add(new Tuple<double, int, int>(renormalizeAngle(Math.Atan2(relPoints[i].RedY, relPoints[i].RedX)), relPoints[i].X, relPoints[i].Y));
             }
 
-            double angle;
-            int rX;
-            int rY;
+            angleList = angleList.Where(a => !angleList.Exists(b => b.Item2 * b.Item2 + b.Item3 * b.Item3 < a.Item2 * a.Item2 + a.Item3 * a.Item3 && a.Item1 == b.Item1))
+                                 .OrderBy(a => a.Item1)
+                                 .ToList();
 
-            List<Tuple<double, List<Tuple<int, int, int>>>> rays = new List<Tuple<double, List<Tuple<int, int, int>>>>();
+            dp = angleList[199];
 
-            List<Tuple<int, int, int>> rayList = new List<Tuple<int, int, int>>();
-
-            foreach(var kvp in dirSQLists)
+            for(int i = 0; i < angleList.Count; i++)
             {
-                angle = renormalizeAngle(Math.Atan2(kvp.Key.Item2, kvp.Key.Item1));
-                rX = kvp.Key.Item1;
-                rY = kvp.Key.Item2;
-
-                rayList = 
-                    kvp.Value.Select(v => new Tuple<int, int, int>(rX, rY, v))
-                             .OrderBy(tup => tup.Item3)
-                             .ToList();
-
-                rays.Add(new Tuple<double, List<Tuple<int, int, int>>>(angle, rayList));
-            }
-
-            rays = rays.OrderBy(r => r.Item1).ToList();
-
-            int pickN = 0;
-            int pass = 0;
-            int angleIndex = 0;
-            Tuple<int, int, int> dp = new Tuple<int, int, int>(0, 0, 0);
-
-            Console.WriteLine(rays.Count());
-
-            while(pickN < 200)
-            {
-                if(pass < rays[angleIndex].Item2.Count())
-                {
-                    dp = rays[angleIndex].Item2[pass];
-                    pickN++;
-                    Console.WriteLine("[{0}] ({1},{2}) {3:0.00}", pickN, dp.Item1, dp.Item2, rays[angleIndex].Item1);
-                }
-
-                angleIndex++;
-
-                if(angleIndex == rays.Count)
-                {
-                    angleIndex = 0;
-                    pass++;
-                }
+                Console.WriteLine("[{0}] ({1},{2}) {3:0.00}", i, angleList[i].Item2, angleList[i].Item3, angleList[i].Item1);
             }
 
             Console.WriteLine("{0},{1}", points[bestIndex].X, points[bestIndex].Y);
 
-            int nX = dp.Item1 + points[bestIndex].X;
-            int nY = dp.Item2 + points[bestIndex].Y;
-
-
+            int nX = dp.Item2 + points[bestIndex].X;
+            int nY = dp.Item3 + points[bestIndex].Y;
 
             return nX * 100 + nY;
         }
@@ -115,7 +70,7 @@ namespace Adv2020
         // Set Pi/2 as 0, neg angles get 2pi
         public static double renormalizeAngle(double radians)
         {
-            double s1 = Math.PI / 2.0 - radians;
+            double s1 = radians + Math.PI / 2.0;
 
             if(s1 < 0.0)
             {
