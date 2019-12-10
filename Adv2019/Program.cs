@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Adv2020
 {
@@ -10,13 +11,12 @@ namespace Adv2020
     {
         static void Main(string[] args)
         {
-<<<<<<< HEAD
-            day6Display();
-=======
-            day9display();
->>>>>>> master
+            day10display();
+
             Console.ReadLine();
         }
+
+        #region Old Days
 
         private static void day1Display()
         {
@@ -83,7 +83,6 @@ namespace Adv2020
             Console.WriteLine("P2 Answer: {0}", answer);
         }
 
-<<<<<<< HEAD
         private static void day6Display()
         {
             Day6 d6p1 = new Day6();
@@ -93,7 +92,8 @@ namespace Adv2020
 
             Day6 d6p2 = new Day6();
             answer = d6p2.getPart2Answer();
-=======
+		}
+			
         private static void day7Display()
         {
             //Day7 d7p1 = new Day7();
@@ -126,9 +126,21 @@ namespace Adv2020
 
             Day9 d9p2 = new Day9();
             answer = d9p2.getPart2Answer();
->>>>>>> master
 
             Console.WriteLine("P2 Answer: {0}", answer);
+        }
+
+        #endregion
+
+        public static void day10display()
+        {
+            Day10 d10p1 = new Day10();
+            int answer = d10p1.getPart1Answer();
+
+            Console.WriteLine("Day 10 P1: {0}", answer);
+
+            answer = d10p1.getPart2Answer();
+            Console.WriteLine("Day 10 P2: {0}", answer);
         }
     }
 }
