@@ -12,6 +12,7 @@ namespace Adv2020
         static void Main(string[] args)
         {
             day10display();
+
             Console.ReadLine();
         }
 
@@ -82,6 +83,17 @@ namespace Adv2020
             Console.WriteLine("P2 Answer: {0}", answer);
         }
 
+        private static void day6Display()
+        {
+            Day6 d6p1 = new Day6();
+            int answer = d6p1.getPart1Answer();
+
+            Console.WriteLine("P1 Answer: {0}", answer);
+
+            Day6 d6p2 = new Day6();
+            answer = d6p2.getPart2Answer();
+		}
+			
         private static void day7Display()
         {
             //Day7 d7p1 = new Day7();
@@ -129,10 +141,6 @@ namespace Adv2020
 
             answer = d10p1.getPart2Answer();
             Console.WriteLine("Day 10 P2: {0}", answer);
-
-            Console.WriteLine("Ren Angle: -1, 10: {0}", Day10.renormalizeAngle(Math.Atan2(10, -1)));
-            Console.WriteLine("Ren Angle: 1, -1: {0}", Day10.renormalizeAngle(Math.Atan2(-1, 1)));
-            Console.WriteLine("Ren Angle, 0, 1: {0}", Day10.renormalizeAngle(Math.Atan2(1, 0)));
         }
     }
 }
