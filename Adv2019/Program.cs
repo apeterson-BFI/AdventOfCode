@@ -10,9 +10,11 @@ namespace Adv2020
     {
         static void Main(string[] args)
         {
-            day9display();
+            day10display();
             Console.ReadLine();
         }
+
+        #region Old Days
 
         private static void day1Display()
         {
@@ -113,6 +115,23 @@ namespace Adv2020
             answer = d9p2.getPart2Answer();
 
             Console.WriteLine("P2 Answer: {0}", answer);
+        }
+
+        #endregion
+
+        public static void day10display()
+        {
+            Day10 d10p1 = new Day10();
+            int answer = d10p1.getPart1Answer();
+
+            Console.WriteLine("Day 10 P1: {0}", answer);
+
+            answer = d10p1.getPart2Answer();
+            Console.WriteLine("Day 10 P2: {0}", answer);
+
+            Console.WriteLine("Ren Angle: -1, 10: {0}", Day10.renormalizeAngle(Math.Atan2(10, -1)));
+            Console.WriteLine("Ren Angle: 1, -1: {0}", Day10.renormalizeAngle(Math.Atan2(-1, 1)));
+            Console.WriteLine("Ren Angle, 0, 1: {0}", Day10.renormalizeAngle(Math.Atan2(1, 0)));
         }
     }
 }

@@ -53,6 +53,25 @@ namespace Adv2020
                         .ToList();
         }
 
+        public static List<SignedPoint> readLinesAsPoints(int day, char present)
+        {
+            List<SignedPoint> points = new List<SignedPoint>();
+            string[] dayLines = readDayLines(day);
+
+            for (int y = 0; y < dayLines.Length; y++)
+            {
+                for (int x = 0; x < dayLines[y].Length; x++)
+                {
+                    if (dayLines[y][x] == present)
+                    {
+                        points.Add(new SignedPoint() { X = x, Y = y });
+                    }
+                }
+            }
+
+            return points;
+        }
+
         private static List<int> splitLineToIntCells(string line, char split)
         {
             var splits = line.Split(split);
@@ -72,5 +91,6 @@ namespace Adv2020
             var splits = line.Split(split);
             return splits.ToList();
         }
+
     }
 }
