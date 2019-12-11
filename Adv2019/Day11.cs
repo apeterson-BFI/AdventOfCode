@@ -18,7 +18,7 @@ namespace Adv2020
             Painter = new Painter(intCode);
         }
 
-        public void doAnswers()
+        public void doPart1Answers()
         {
             Tuple<int, List<long>> results = Painter.doPaint();
 
@@ -30,6 +30,30 @@ namespace Adv2020
             string line;
 
             using(var sw = File.CreateText("output11.csv"))
+            {
+                while (index + 1000 <= mem.Count)
+                {
+                    mem.CopyTo(index, row, 0, 1000);
+                    line = string.Join(",", row);
+                    sw.WriteLine(line);
+
+                    index += 1000;
+                }
+            }
+        }
+
+        public void doPart2Answers()
+        {
+            Tuple<int, List<long>> results = Painter.doPaint(1L);
+
+            Console.WriteLine("Lines written: {0}", results.Item1);
+
+            List<long> mem = results.Item2;
+            int index = 0;
+            long[] row = new long[1000];
+            string line;
+
+            using (var sw = File.CreateText("output11.csv"))
             {
                 while (index + 1000 <= mem.Count)
                 {

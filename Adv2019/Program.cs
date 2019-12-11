@@ -145,9 +145,12 @@ namespace Adv2020
 
         public static void day11display()
         {
-            Day11 d11p1 = new Day11();
-            d11p1.doAnswers();
-            //d11p1.testReceiver();
+            //Day11 d11p1 = new Day11();
+            //d11p1.doPart1Answers();
+            ////d11p1.testReceiver();
+
+            Day11 d11p2 = new Day11();
+            d11p2.doPart2Answers();
         }
     }
 }

@@ -71,6 +71,12 @@ namespace Adv2020
             return new Tuple<int, List<long>>(count, storage.ToList());
         }
 
+        public Tuple<int, List<long>> doPaint(long startPaint)
+        {
+            Receiver.memory[501500] = startPaint;
+            return doPaint();
+        }
+
         private IntCode buildReceiver()
         {
             // y - 1000s
