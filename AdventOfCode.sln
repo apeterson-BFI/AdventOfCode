@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adv2018CSharp", "AdventCSha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adv2019", "Adv2019\Adv2019.csproj", "{C56E2947-E2F2-4701-9F84-E8B9CD1E334E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adv2015", "Adv2015\Adv2015.csproj", "{6FA8BC5A-2CD2-47F4-B6CD-E34361878FB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventCommon", "AdventCommon\AdventCommon.csproj", "{7E5B0582-56AF-4654-B692-2E823B4FCF14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{C56E2947-E2F2-4701-9F84-E8B9CD1E334E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C56E2947-E2F2-4701-9F84-E8B9CD1E334E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C56E2947-E2F2-4701-9F84-E8B9CD1E334E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FA8BC5A-2CD2-47F4-B6CD-E34361878FB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FA8BC5A-2CD2-47F4-B6CD-E34361878FB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FA8BC5A-2CD2-47F4-B6CD-E34361878FB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FA8BC5A-2CD2-47F4-B6CD-E34361878FB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E5B0582-56AF-4654-B692-2E823B4FCF14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E5B0582-56AF-4654-B692-2E823B4FCF14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E5B0582-56AF-4654-B692-2E823B4FCF14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E5B0582-56AF-4654-B692-2E823B4FCF14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
