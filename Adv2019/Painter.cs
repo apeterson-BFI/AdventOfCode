@@ -32,24 +32,130 @@ namespace Adv2020
             // 901 - y direction
             // 902 - y * 1000
             // 903 - x + y * 1000
+            // 910 - paint color
+            // 911 - turn command (0 turn left) (1 turn right)
+            // 920 - comparison storage
+            // 925 - temp storage 1
+            // 990 - x curr
+            // 991 - y curr
             // 501500 - base start : (-500, -500) maps to 1000, (+500, +500) maps to 1002000
+
+            // 1005000 - paint logger start (x + y * 1000)
 
             List<long> recRom = new List<long>()
             {
+                // Setup
                 109,        // [0] adjust relative base: Immediate param 501500
                 501500,     // [1] relBase: 501500
-                1101,       // [2] add -1 0 : store into 901.
+
+                1101,       // [2] add -1 0 : store into 901 (yd).
                 -1,         // [3] -1 : first immediate param
                 0,          // [4] 0 : second immediate param
                 901,        // [5] write location
-                1002,       // [6] mult [901] 1000 to [902]      : calculate dir base
-                901,        // [7] first (positional) arg
-                1000,       // [8] second (immediate) arg
-                902,        // [9] out location
-                1,          // [10] write [900] [902] [903]      : write painter offset
-                900,        // [11]
-                902,        // [12]
-                903,        // [13]
+
+                // Write content of current location
+                204,        // [6] output from relative location
+                0,          // [7] relBase + 0
+
+                // Read paint color
+                3,          // [8] input to positional location
+                910,        // [9] paint color storage location
+
+                // Go to Painter core finished?
+                // if read color = 99 then 1 is in 920,
+                // if 1 is in 920, jump to Code location 200
+                1008,       // [10] equals [pos] [immediate] write to [pos]
+                910,        // [11] paint color storage location
+                99,         // [12] painter end painting code
+                920,        // [13] equals result location
+                
+                1005,       // [14] jump non-zero [pos] [immediate]
+                920,        // [15] equals result location
+                200,        // [16] code jump address : UPDATE BASED ON FINAL CODE SIZE
+
+                // Read turn command
+                3,          // [17] input to positional
+                911,        // [18] turn command storage location
+
+                // Paint current x,y location
+                21001,      // [19] add [pos arg] [immediate arg] to [rel arg]
+                910,        // [20] paint color storage location
+                0,          // [21] add 0 (makes add into store)
+                0,          // [22] write to relBase + 0
+
+                // Write to logger
+                1002,       // [23] mult pos immed pos
+                991,        // [24] y location
+                1000,       // [25] mult 1000
+                925,        // [26] temp location
+
+                1,          // [27] add pos pos pos
+                990,        // [28] x location
+                925,        // [29] temp location (1000 y)
+                1005000,    // [30] current logger location
+
+                // Increment logger location
+                1001,       // [31] add pos immed pos
+                30,         // [32] code location where logger location can be found
+                1,          // [33] add 1
+                30,         // [34] store back in 30
+
+                // Update turnX, turnY
+                // Jump to turnRight handling, if neccessary (jump nz)
+                1005,       // [35] jump non-zero [pos] [immed]
+                911,        // [36] turn command storage location
+                53,         // [37] turnRight location
+
+                // turnLeft
+                // yD = xD, xD = -yD
+                // 900 - xD, 901 - yD
+                
+                // into temp location 925
+                1001,       // [38] add pos immed pos
+                900,        // [39] from xd
+                0,          // [40] add 0
+                925,        // [41] to temp (925)
+               
+                1002,       // [42] mult pos immed pos
+                901,        // [43] from yd
+                -1,         // [44] mult -1
+                900,        // [45] into xd
+
+                1001,       // [46] add pos immed pos
+                925,        // [47] from temp
+                0,          // [48] add 0
+                901,        // [49] into yd
+
+                1105,       // [50] jnz [immed] [immed] jump to after turnRight handling
+                1,          // [51] non-zero (guarantee jump)
+                65,         // [52] to after turnRight
+
+                // turnRight
+                // yD = -xD, xD = yD
+                1001,       // [53] add pos immed pos
+                901,        // [54] from yd
+                0,          // [55] add 0
+                925,        // [56] to temp (925)                
+                
+                1002,       // [57] mult pos immed pos
+                900,        // [58] from xd
+                -1,         // [59] mult -1
+                901,        // [60] into yd
+
+                1001,       // [61] add pos immed pos
+                925,        // [62] from temp (yd)
+                0,          // [63] add 0
+                900,        // [64] into xd
+
+
+                1002,       // [65] mult [901] 1000 to [902]      : calculate dir base
+                901,        // [66] first (positional) arg
+                1000,       // [67] second (immediate) arg
+                902,        // [68] out location
+                1,          // [69] write [900] [902] [903]      : write painter offset
+                900,        // [70]
+                902,        // [71]
+                903,        // [72]
 
             }
         }

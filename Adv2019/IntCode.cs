@@ -317,7 +317,7 @@ namespace Adv2020
 
             long load = memory[index + position];
 
-            if (load >= memory.Count)
+            if (load + relBase >= memory.Count)
             {
                 abort = true;
                 return 0;
@@ -368,7 +368,7 @@ namespace Adv2020
 
             long save = memory[index + position];
 
-            if (save >= memory.Count)
+            if (save + relBase >= memory.Count)
             {
                 abort = true;
                 return;
