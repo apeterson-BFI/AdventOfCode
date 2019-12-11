@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Adv2020
 {
@@ -21,6 +22,53 @@ namespace Adv2020
             Processor.inputSource = Receiver;
             Receiver.inputSource = Processor;
             Receiver.outputDest = Processor;
+        }
+
+        public void doReceiverTest(List<int> inputs)
+        {
+            for (int i = 0; i < inputs.Count; i++)
+            {
+                Receiver.Input.Enqueue(inputs[i]);
+            }
+
+            Receiver.process();
+        }
+
+        public Tuple<int,List<long>> doPaint()
+        {
+            Thread processorThread = new Thread(new ThreadStart(Processor.process));
+            Thread receiverThread = new Thread(new ThreadStart(Receiver.process));
+
+            processorThread.Start();
+            receiverThread.Start();
+
+            while(!Processor.abort)
+            {
+                Thread.Sleep(20);
+            }
+
+            Receiver.Input.Enqueue(99L);
+
+            while(!Receiver.abort)
+            {
+                Thread.Sleep(20);
+            }
+
+            HashSet<long> hashLong = new HashSet<long>();
+
+            for(int i = 1005000; i < Receiver.memory.Count; i++)
+            {
+                if(!hashLong.Contains(Receiver.memory[i]))
+                {
+                    hashLong.Add(Receiver.memory[i]);
+                }
+            }
+
+            int count = hashLong.Count();
+            long[] storage = new long[1001000];
+            Receiver.memory.CopyTo(1000, storage, 0, 1001000);
+
+            return new Tuple<int, List<long>>(count, storage.ToList());
         }
 
         private IntCode buildReceiver()
@@ -53,7 +101,7 @@ namespace Adv2020
                 0,          // [4] 0 : second immediate param
                 901,        // [5] write location
 
-                // Write content of current location
+                // Output content of current location
                 204,        // [6] output from relative location
                 0,          // [7] relBase + 0
 
@@ -71,7 +119,7 @@ namespace Adv2020
                 
                 1005,       // [14] jump non-zero [pos] [immediate]
                 920,        // [15] equals result location
-                200,        // [16] code jump address : UPDATE BASED ON FINAL CODE SIZE
+                86,         // [16] code jump address : go to return point.
 
                 // Read turn command
                 3,          // [17] input to positional
@@ -147,17 +195,39 @@ namespace Adv2020
                 0,          // [63] add 0
                 900,        // [64] into xd
 
-
-                1002,       // [65] mult [901] 1000 to [902]      : calculate dir base
+                // Save direction offset
+                1002,       // [65] mult [901] 1000 to [902]      : yD * 1000
                 901,        // [66] first (positional) arg
                 1000,       // [67] second (immediate) arg
                 902,        // [68] out location
-                1,          // [69] write [900] [902] [903]      : write painter offset
-                900,        // [70]
-                902,        // [71]
-                903,        // [72]
 
-            }
+                1,          // [69] write [900] [902] [903]      : xD + yD * 1000
+                900,        // [70] xD
+                902,        // [71] yD * 1000
+                903,        // [72] offset storage
+
+                9,          // [73] Set relative offset (change location of painting cursor)
+                903,        // [74] offset is in 903
+
+                // Update x and y used by logger
+                1,          // [75] add pos pos pos
+                990,        // [76] x curr
+                900,        // [77] xD
+                990,        // [78] x curr
+
+                1,          // [79] add pos pos pos
+                991,        // [80] y curr
+                901,        // [81] yD
+                991,        // [82] y curr
+
+                1105,       // [83] jnz immed immed : jump to [6] start of loop
+                1,          // [84] non-zero guaranteed jump
+                6,          // [85] go-to start of loop.
+
+                99          // [86] return
+            };
+
+            return new IntCode(recRom, 1100000);
         }
     }
 }

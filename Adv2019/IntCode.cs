@@ -186,7 +186,7 @@ namespace Adv2020
                 }
                 else
                 {
-                    Thread.Sleep(20);
+                    Thread.Sleep(2);
                 }
             }
 

@@ -11,7 +11,7 @@ namespace Adv2020
     {
         static void Main(string[] args)
         {
-            day10display();
+            day11display();
 
             Console.ReadLine();
         }
@@ -130,8 +130,6 @@ namespace Adv2020
             Console.WriteLine("P2 Answer: {0}", answer);
         }
 
-        #endregion
-
         public static void day10display()
         {
             Day10 d10p1 = new Day10();
@@ -141,6 +139,15 @@ namespace Adv2020
 
             answer = d10p1.getPart2Answer();
             Console.WriteLine("Day 10 P2: {0}", answer);
+        }
+
+        #endregion
+
+        public static void day11display()
+        {
+            Day11 d11p1 = new Day11();
+            d11p1.doAnswers();
+            //d11p1.testReceiver();
         }
     }
 }
