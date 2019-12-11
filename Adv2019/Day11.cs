@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace Adv2020
+namespace Adv2019
 {
     public class Day11
     {

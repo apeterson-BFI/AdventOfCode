@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
 
-namespace Adv2020
+namespace Adv2019
 {
     public class Day8
     {

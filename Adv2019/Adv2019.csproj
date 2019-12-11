@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C56E2947-E2F2-4701-9F84-E8B9CD1E334E}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Adv2020</RootNamespace>
-    <AssemblyName>Adv2020</AssemblyName>
+    <RootNamespace>Adv2019</RootNamespace>
+    <AssemblyName>Adv2019</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
