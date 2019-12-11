@@ -10,6 +10,8 @@ namespace Adv2020
 {
     public class IntCode
     {
+        public int MemSize { get; set; }
+
         internal List<long> rom;
         internal List<long> memory;
         internal int index;
@@ -24,12 +26,13 @@ namespace Adv2020
 
         public List<long> Output { get; set; }
 
-        public IntCode(List<long> rom)
+        public IntCode(List<long> rom, int memSize = 65536)
         {
             this.rom = new List<long>(rom);
             this.memory = new List<long>();
+            this.MemSize = memSize;
 
-            for(int i = 0; i < 65536; i++)
+            for(int i = 0; i < MemSize; i++)
             {
                 if(i < rom.Count)
                 {
@@ -92,7 +95,7 @@ namespace Adv2020
             relBase = 0;
             abort = false;
 
-            for (int i = 0; i < 65536; i++)
+            for (int i = 0; i < MemSize; i++)
             {
                 if (i < rom.Count)
                 {
@@ -183,7 +186,7 @@ namespace Adv2020
                 }
                 else
                 {
-                    Thread.Sleep(20);
+                    Thread.Sleep(0);
                 }
             }
 
@@ -314,7 +317,7 @@ namespace Adv2020
 
             long load = memory[index + position];
 
-            if (load >= memory.Count)
+            if (load + relBase >= memory.Count)
             {
                 abort = true;
                 return 0;
@@ -365,7 +368,7 @@ namespace Adv2020
 
             long save = memory[index + position];
 
-            if (save >= memory.Count)
+            if (save + relBase >= memory.Count)
             {
                 abort = true;
                 return;

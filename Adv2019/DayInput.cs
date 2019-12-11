@@ -81,6 +81,15 @@ namespace Adv2020
             return points;
         }
 
+        public static IntCode readLinesAsIntCode(int day, int memSize = 65536)
+        {
+            var rom = DayInput.readDayLinesAsLongCSV(day, ',')[0];
+
+            IntCode intCode = new IntCode(rom, memSize);
+
+            return intCode;
+        }
+
         private static List<int> splitLineToIntCells(string line, char split)
         {
             var splits = line.Split(split);
@@ -100,6 +109,8 @@ namespace Adv2020
             var splits = line.Split(split);
             return splits.ToList();
         }
+
+        
 
     }
 }
