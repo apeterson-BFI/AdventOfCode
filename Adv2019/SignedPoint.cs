@@ -62,5 +62,10 @@ namespace Adv2020
 
             return gcd(p2, r);
         }
+
+        public static int lcm(int p1, int p2)
+        {
+            return p1 * p2 / gcd(p1, p2);
+        }
     }
 }
