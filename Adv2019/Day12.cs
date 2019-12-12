@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using MathNet;
 
 namespace Adv2020
 {
@@ -115,7 +116,7 @@ namespace Adv2020
             // assumping Xb = Yb = Zb = 0
             // 12, 15, 20 -> LCD (Xcyc, Ycyc, Zcyc) = first recurrence.
 
-            int reoccurrence = xCycle * yCycle * zCycle / SignedPoint.gcd(xCycle, SignedPoint.gcd(yCycle, zCycle));
+            long reoccurrence = MathNet.Numerics.Euclid.LeastCommonMultiple(xCycle, yCycle, zCycle);
 
             Console.WriteLine("Xb, Xcyc: {0},{1}", xBase, xCycle);
             Console.WriteLine("Yb, Ycyc: {0},{1}", yBase, yCycle);
