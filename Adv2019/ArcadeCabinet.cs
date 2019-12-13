@@ -90,9 +90,9 @@ namespace Adv2020
                 1005,                       // [31] if ball, go to ball code
                 903,
                 48,                         // code index
-                1105,                       // [34] jump always to Input start
+                1105,                       // [34] jump to extended score handling code.
                 1,
-                2,
+                134,
                 1001,                       // [37] {paddle branch} : store paddle x
                 900,
                 0,
@@ -133,7 +133,7 @@ namespace Adv2020
                 905,
                 1005,                       // [75] jump if ball now x < ball last x
                 905,
-                9999999,                    // test jump index
+                119,                        
                 1002,                       // [78] {ball moving right} : tmp1 : ball now y * -1
                 913,
                 -1,
@@ -152,22 +152,72 @@ namespace Adv2020
                 903,
                 1005,                       // [94] : jump if x < target
                 903,
-                9999999,                    // test jump index
+                114, 
                 8,                          // [97] : {x >= target} : paddle x = paddle target x?
                 910,
                 920,
                 903,
-                1005,                       // [101] : if x = target, we are done, we can go back to input.
+                1005,                       // [101] : if x = target, we are done, we can go back to Write 0 branch.
+                903,
+                109,
+                104,                        // [104] : {x > target} : write -1 to decrease x
+                -1,
+                1105,                       // [106] go back to input start
+                1,
+                2,
+                104,                        // [109] : x = target : write 0 to keep x the same.
+                0,  
+                1105,                       // [111] : go back to input start
+                1,
+                2,
+                104,                        // [114] : x < target, write 1 to keep x the same.
+                1, 
+                1105,                       // [116] : go back to input start
+                1,
+                2,
+                1002,                       // [119] {ball moving right} : tmp1 : paddle y * -1
+                911,
+                -1,
+                906,
+                1,                          // [123] : tmp1 := tmp1 + ball now y : 906 holds negative of number of y tiles between ball and paddle.
+                906,
+                913,
+                906,
+                1,                          // [127] : paddle target x = tmp1 + ball now x
+                906,
+                912,
+                920,
+                1105,                       // [131] : jump to paddle target handler code
+                1,
+                90,
+                1008,                       // [134] : incoming block x = -1?
+                900,
+                -1,
+                903,
+                1006,                       // [138] : jump to Input start if x <> -1 ([903] = 0)
                 903,
                 2,
-                                            // [104] : {x > target} : TO DO: increment x until x = target, each time sending output of 1 to processor.
+                1008,                       // [141] : incoming block y = 0?
+                901,
+                0,
+                903,
+                1006,                       // [145] jump to Input start if x <> -1 ([903] = 0)
+                903,
+                2,
+                1105,                       // [148] : jump to paddle target handler code
+                1,
+                90,
             };
 
-            receiver = new IntCode(new List<long>());
+            receiver = new IntCode(receiverRom);
 
             processor.outputDest = receiver;
             processor.inputSource = receiver;
+            receiver.outputDest = processor;
+            receiver.inputSource = processor;
 
+            processor.Input.Enqueue(0L);
+            processor.Input.Enqueue(1L);
             drawCommands = new List<Tuple<long, long, long>>();
             g = pnlViewer.CreateGraphics();
         }
@@ -234,6 +284,11 @@ namespace Adv2020
         private void ArcadeCabinet_Shown(object sender, EventArgs e)
         {
             updTimer.Start();
+
+            Thread th1 = new Thread(new ThreadStart(receiver.process));
+            Thread th2 = new Thread(new ThreadStart(processor.process));
+            th1.Start();
+            th2.Start();
         }
 
         
@@ -243,10 +298,8 @@ namespace Adv2020
             processor.baseInit();
             processor.memory[0] = 2L;
             drawCommands = new List<Tuple<long, long, long>>();
-            received = false;
-            paddleDir = 0;
             txtScore.Text = "";
-            txtSteps.Text = "5";
+            txtSteps.Text = "";
         }
     }
 }
