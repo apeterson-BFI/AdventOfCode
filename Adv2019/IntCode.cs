@@ -119,6 +119,14 @@ namespace Adv2020
             }
         }
 
+        public void runN(int steps)
+        {
+            for(int i = 0; i < steps; i++)
+            {
+                doInstruction();
+            }
+        }
+
         private void doInstruction()
         {
             long instruction;

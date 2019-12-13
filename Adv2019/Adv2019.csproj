@@ -50,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArcadeCabinet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ArcadeCabinet.Designer.cs">
+      <DependentUpon>ArcadeCabinet.cs</DependentUpon>
+    </Compile>
     <Compile Include="Day11.cs" />
     <Compile Include="Day12.cs" />
     <Compile Include="Day6.cs" />
@@ -87,6 +93,9 @@
     <Content Include="day12input.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="day13input.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="day5input.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -116,6 +125,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ArcadeCabinet.resx">
+      <DependentUpon>ArcadeCabinet.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
