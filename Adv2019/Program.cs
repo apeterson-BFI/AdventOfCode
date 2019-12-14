@@ -13,6 +13,7 @@ namespace Adv2020
         static void Main(string[] args)
         {
             day13display();
+            Console.ReadLine();
         }
 
         #region Old Days
@@ -165,8 +166,8 @@ namespace Adv2020
 
         public static void day13display()
         {
-            ArcadeCabinet arc = new ArcadeCabinet();
-            Application.Run(arc);
+            Day13 d13 = new Day13();
+            d13.getPart2Answer();
         }
     }
 }

@@ -207,7 +207,7 @@ namespace Adv2020
             long param1 = loadParameter(1);
 
             Output.Add(param1);
-            //Console.WriteLine(param1);
+            Console.WriteLine(param1);
 
             if(outputDest != null)
             {
