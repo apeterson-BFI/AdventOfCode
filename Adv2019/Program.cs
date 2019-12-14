@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Adv2020
 {
@@ -11,8 +12,7 @@ namespace Adv2020
     {
         static void Main(string[] args)
         {
-            day12display();
-
+            day13display();
             Console.ReadLine();
         }
 
@@ -151,8 +151,6 @@ namespace Adv2020
             d11p2.doPart2Answers();
         }
 
-        #endregion
-
         public static void day12display()
         {
             //Day12 d12p1 = new Day12();
@@ -162,6 +160,14 @@ namespace Adv2020
 
             Day12 d12p2 = new Day12();
             d12p2.getPart2Answer();
+        }
+
+        #endregion
+
+        public static void day13display()
+        {
+            Day13 d13 = new Day13();
+            d13.getPart2Answer();
         }
     }
 }

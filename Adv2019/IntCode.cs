@@ -119,6 +119,14 @@ namespace Adv2020
             }
         }
 
+        public void runN(int steps)
+        {
+            for(int i = 0; i < steps; i++)
+            {
+                doInstruction();
+            }
+        }
+
         private void doInstruction()
         {
             long instruction;
@@ -199,7 +207,7 @@ namespace Adv2020
             long param1 = loadParameter(1);
 
             Output.Add(param1);
-            //Console.WriteLine(param1);
+            Console.WriteLine(param1);
 
             if(outputDest != null)
             {
