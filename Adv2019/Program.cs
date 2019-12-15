@@ -172,10 +172,16 @@ namespace Adv2020
 
         #endregion
 
-        public static void day14Display()
+        public static void day14display()
         {
             Day14 d14 = new Day14();
+            long answer = d14.getPart1Answer();
 
+            Console.WriteLine("Day 14: P1 {0}", answer);
+
+            answer = d14.getPart2Answer();
+
+            Console.WriteLine("Day 14: P2 {0}", answer);
         }
     }
 }
