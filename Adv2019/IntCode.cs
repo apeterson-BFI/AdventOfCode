@@ -22,6 +22,9 @@ namespace Adv2020
         internal IntCode inputSource;
         internal IntCode outputDest;
 
+        internal Func<long> inputProvider;
+        internal Action<long> outputSink;
+
         public ConcurrentQueue<long> Input { get; set; }
 
         public List<long> Output { get; set; }
@@ -187,14 +190,18 @@ namespace Adv2020
 
             while(!Input.TryDequeue(out inp))
             {
-                if(inputSource == null)
+                if(inputProvider != null)
                 {
-                    abort = true;
-                    return;
+                    Input.Enqueue(inputProvider());
+                }
+                else if(inputSource != null)
+                {
+                    Thread.Sleep(0);
                 }
                 else
                 {
-                    Thread.Sleep(0);
+                    abort = true;
+                    return;
                 }
             }
 
@@ -207,9 +214,12 @@ namespace Adv2020
             long param1 = loadParameter(1);
 
             Output.Add(param1);
-            Console.WriteLine(param1);
-
-            if(outputDest != null)
+            
+            if(outputSink != null)
+            {
+                outputSink(param1);
+            }
+            else if(outputDest != null)
             {
                 outputDest.Input.Enqueue(param1);
             }
