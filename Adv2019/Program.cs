@@ -12,7 +12,7 @@ namespace Adv2020
     {
         static void Main(string[] args)
         {
-            day13display();
+            day14display();
             Console.ReadLine();
         }
 
@@ -162,12 +162,26 @@ namespace Adv2020
             d12p2.getPart2Answer();
         }
 
-        #endregion
-
         public static void day13display()
         {
             Day13 d13 = new Day13();
-            d13.getPart2Answer();
+            long answer = d13.getPart2Answer();
+
+            Console.WriteLine("Day 13: P2 {0}", answer);
+        }
+
+        #endregion
+
+        public static void day14display()
+        {
+            Day14 d14 = new Day14();
+            long answer = d14.getPart1Answer();
+
+            Console.WriteLine("Day 14: P1 {0}", answer);
+
+            answer = d14.getPart2Answer();
+
+            Console.WriteLine("Day 14: P2 {0}", answer);
         }
     }
 }
