@@ -30,7 +30,7 @@ namespace Adv2020
 
         internal Random rnm;
 
-        internal Queue<Tuple<int, int>> visited;
+        internal Queue<Tuple<int, int, int>> visited;
 
         public Day15()
         {
@@ -79,14 +79,57 @@ namespace Adv2020
 
             map[114, 114] = 2;
 
-
+            return flood(114, 114, 0);
         }
 
         public int flood(int x, int y, int taken)
         {
-            visited = new Queue<Tuple<int, int>>();
+            visited = new Queue<Tuple<int, int, int>>();
 
+            Tuple<int, int, int> element = new Tuple<int, int, int>(x, y, taken);
+            visited.Enqueue(element);
 
+            int cx = x;
+            int cy = y;
+
+            while((element = visited.Peek()) != null)
+            {
+
+            }
+
+            if (x < 0 || x >= 200 || y < 0 || y >= 200)
+            {
+                return Int32.MinValue;
+            }
+            else
+            {
+                Tuple<int, int> coord = new Tuple<int, int>(x, y);
+
+                if (visited.Contains(coord))
+                {
+                    return Int32.MinValue;
+                }
+                else
+                {
+                    visited.Enqueue(new Tuple<int, int>(x, y));
+
+                    int fUp = flood(x, y - 1, taken + 1);
+                    int fDown = flood(x, y + 1, taken + 1);
+                    int fLeft = flood(x - 1, y, taken + 1);
+                    int fRight = flood(x + 1, y, taken + 1);
+
+                    int max = new List<int>() { fUp, fDown, fLeft, fRight }.OrderByDescending(i => i).First();
+
+                    if (max == Int32.MinValue)
+                    {
+                        return taken;
+                    }
+                    else
+                    {
+                        return max;
+                    }
+                }
+            }
         }
 
         public int search(int x, int y, int taken, int goalValue, HashSet<int> visited)
@@ -174,7 +217,7 @@ namespace Adv2020
             do
             {
                 d = provideInput();
-            } while (!(x + dx == 114 && y + dy == 114));
+            } while (x + dx == 114 && y + dy == 114);
 
             return d;
         }
