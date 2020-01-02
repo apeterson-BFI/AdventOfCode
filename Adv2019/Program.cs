@@ -170,8 +170,6 @@ namespace Adv2020
             Console.WriteLine("Day 13: P2 {0}", answer);
         }
 
-        #endregion
-
         public static void day14display()
         {
             Day14 d14 = new Day14();
@@ -183,5 +181,13 @@ namespace Adv2020
 
             Console.WriteLine("Day 14: P2 {0}", answer);
         }
+
+        #endregion
+
+        public static void day16display()
+        {
+
+        }
+
     }
 }
