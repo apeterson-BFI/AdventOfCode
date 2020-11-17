@@ -30,6 +30,11 @@ namespace Adv2020
             return readDayLines(day)[0];
         }
 
+        public static int[] readDayLineAsDigitInts(int day)
+        {
+            return readDayLine(day).ToCharArray().Select(c => (int)Char.GetNumericValue(c)).ToArray();
+        }
+
         public static List<long> readDayLinesAsLongs(int day)
         {
             return
