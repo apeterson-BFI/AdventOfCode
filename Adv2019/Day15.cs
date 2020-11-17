@@ -30,6 +30,8 @@ namespace Adv2020
 
         internal Random rnm;
 
+        internal Queue<Tuple<int, int, int>> visited;
+
         public Day15()
         {
             rnm = new Random();
@@ -68,6 +70,66 @@ namespace Adv2020
             // 
             // our current level
             // where we were in a past levels
+
+            // simulate a recursive call with the exploreStack
+            intCode.inputProvider = provideInputP2;
+            intCode.outputSink = receiveOutput;
+
+            intCode.runN(1000000);
+
+            map[114, 114] = 2;
+
+            return flood(114, 114, 0);
+        }
+
+        public int flood(int x, int y, int taken)
+        {
+            visited = new Queue<Tuple<int, int, int>>();
+
+            Tuple<int, int, int> element = new Tuple<int, int, int>(x, y, taken);
+            visited.Enqueue(element);
+
+            int cx = x;
+            int cy = y;
+
+            while((element = visited.Peek()) != null)
+            {
+
+            }
+
+            if (x < 0 || x >= 200 || y < 0 || y >= 200)
+            {
+                return Int32.MinValue;
+            }
+            else
+            {
+                Tuple<int, int> coord = new Tuple<int, int>(x, y);
+
+                if (visited.Contains(coord))
+                {
+                    return Int32.MinValue;
+                }
+                else
+                {
+                    visited.Enqueue(new Tuple<int, int>(x, y));
+
+                    int fUp = flood(x, y - 1, taken + 1);
+                    int fDown = flood(x, y + 1, taken + 1);
+                    int fLeft = flood(x - 1, y, taken + 1);
+                    int fRight = flood(x + 1, y, taken + 1);
+
+                    int max = new List<int>() { fUp, fDown, fLeft, fRight }.OrderByDescending(i => i).First();
+
+                    if (max == Int32.MinValue)
+                    {
+                        return taken;
+                    }
+                    else
+                    {
+                        return max;
+                    }
+                }
+            }
         }
 
         public int search(int x, int y, int taken, int goalValue, HashSet<int> visited)
@@ -148,6 +210,18 @@ namespace Adv2020
             return dir;
         }
 
+        private long provideInputP2()
+        {
+            long d;
+
+            do
+            {
+                d = provideInput();
+            } while (x + dx == 114 && y + dy == 114);
+
+            return d;
+        }
+
         public void receiveOutput(long output)
         {
             if(output == 0)
@@ -172,17 +246,22 @@ namespace Adv2020
             }
         }
 
-        private void setDirection()
+        private void setDeltas()
         {
-            dir = rnm.Next(1, 5);
-
-            switch(dir)
+            switch (dir)
             {
                 case 1: dx = 0; dy = -1; break;
                 case 2: dx = 0; dy = 1; break;
                 case 3: dx = -1; dy = 0; break;
                 case 4: dx = 1; dy = 0; break;
             }
+        }
+
+        private void setDirection()
+        {
+            dir = rnm.Next(1, 5);
+
+            setDeltas();
         }
     }
 }

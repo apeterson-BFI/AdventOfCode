@@ -185,9 +185,9 @@ namespace Adv2020
         public static void day15display()
         {
             Day15 d15 = new Day15();
-            long answer = d15.getPart1Answer();
+            long answer = d15.getPart2Answer();
 
-            Console.WriteLine("Day 15: P1 {0}", answer);
+            Console.WriteLine("Day 15: P2 {0}", answer);
 
         }
 
