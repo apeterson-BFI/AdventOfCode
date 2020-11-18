@@ -12,7 +12,7 @@ namespace Adv2020
     {
         static void Main(string[] args)
         {
-            day15display();
+            day16display();
             Console.ReadLine();
         }
 
@@ -195,7 +195,35 @@ namespace Adv2020
 
         public static void day16display()
         {
+            //Day16 dayTest = new Day16();
+            //dayTest.setup(false);
 
+            //string result = dayTest.rpt(100);
+
+            //Console.WriteLine("Tst Res Start   : {0}", result);
+            //Console.WriteLine("Expected Start  : {0}", "24176176");
+
+            //Day16 dayReal = new Day16();
+            //dayReal.setup(true);
+
+            //result = dayReal.rpt(100);
+
+            //Console.WriteLine("Real P1 Start   : {0}", result);
+
+            Day16 dayP2 = new Day16();
+            dayP2.setup2(false);
+
+            string result = dayP2.rpt2(100);
+
+            Console.WriteLine("T P2 Start   : {0}", result);
+            Console.WriteLine("Ex P2        : {0}", "84462026");
+
+            Day16 dayP2real = new Day16();
+            dayP2real.setup2(true);
+
+            result = dayP2real.rpt2(100);
+
+            Console.WriteLine("R P2 Start   : {0}", result);
         }
     }
 }
