@@ -42,9 +42,15 @@ namespace Adv2020
             Array.Copy(inDigits, offArray, 7);
 
             offset = Int32.Parse(string.Join("", offArray));
+
+            Console.WriteLine("Digits: {0}, Offset: {1}", inDigits.Length, offset);
+
+            inDigits = inDigits.Skip(offset).ToArray();
+
+
         }
         
-        public double pattern(int outputRow, int inElement)
+        public int pattern(int outputRow, int inElement)
         {
             int oi = inElement + 1;
             int pset = oi / (outputRow + 1);
@@ -66,64 +72,92 @@ namespace Adv2020
         // algo analysis
         // 100 transforms * X digits * X digits = 100 x^2 :
         // sample: x = 10000 * 39^2 = 16,000,000,000 mults
-        // A^n * v
 
-        // each output digit is a row in a matrix
-        // result is matrix multiplication and then mod.
-        public Matrix<double> createPatternMatrix()
+        public int[] transform(int[] startVals)
         {
-            return CreateMatrix.Dense<double>(inDigits.Length, inDigits.Length, pattern);
+            int[] res = new int[startVals.Length];
 
-            // 1,0,-1,0,1, 0,-1,0,....
-            // 0,1, 1,0,0,-1,-1,
+            int accum;
+
+            for (int outputRow = 0; outputRow < startVals.Length; outputRow++)
+            {
+                accum = 0;
+
+                for(int multCol = 0; multCol < startVals.Length; multCol++)
+                {
+                    accum += pattern(outputRow, multCol) * startVals[multCol];
+                }
+
+                res[outputRow] = Math.Abs(accum) % 10;
+            }
+
+            return res;
         }
 
-        public Vector<double> calculatePowerProduct(Matrix<double> pattMatrix, int exponent)
+        public int[] transform(int[] startVals, int offset)
         {
-            Matrix<double> powMatrix = CreateMatrix.Dense<double>(inDigits.Length, inDigits.Length);
-            Vector<double> resVector = CreateVector.Dense<double>(inDigits.Length);
+            int[] res = new int[startVals.Length];
 
-            Vector<double> inVector = CreateVector.Dense<double>(inDigits.Length, i => (double)inDigits[i]);
+            int accum;
 
-            pattMatrix.Power(exponent, powMatrix);
-            powMatrix.Multiply(inVector, resVector);
+            for (int outputRow = 0; outputRow < startVals.Length; outputRow++)
+            {
+                accum = 0;
 
-            return resVector;
+                for (int multCol = 0; multCol < startVals.Length; multCol++)
+                {
+                    accum += pattern(outputRow + offset, multCol + offset) * startVals[multCol];
+                }
+
+                res[outputRow] = Math.Abs(accum) % 10;
+            }
+
+            return res;
         }
 
-        public void multDN(Matrix<double> pattMatrix, Vector<double> inVect, Vector<double> resVect)
+        public int[] transform2(int[] startVals)
         {
-            pattMatrix.Multiply(inVect, resVect);
+            int[] res = new int[startVals.Length];
 
-            
+            int total = 0;
+
+            for(int i = startVals.Length - 1; i >= 0; i--)
+            {
+                total = (total + startVals[i]) % 10;
+
+                res[i] = total;
+            }
+
+            return res;
         }
 
 
         public string rpt(int repetitions)
         {
-            Matrix<double> pattMatrix = createPatternMatrix();
-            
-            // inVect = in elements -> vect
+            int[] startArr = new int[inDigits.Length];
 
-            Vector<double> resVector = CreateVector.Dense<double>(inVect.Count);
+            Array.Copy(inDigits, startArr, inDigits.Length);
 
+            for(int i = 0; i < repetitions; i++)
+            {
+                startArr = transform(startArr);
+            }
 
-            var t8 = resVector.Take(8);
-            var id = t8.Select(x => (int)x);
-           
-            string res = string.Join("", resVector.Take(8).Select(x => ((int)Math.Abs(x)) % 10));
-
-            return res;
+            return string.Join("", startArr);
         }
 
         public string rpt2(int repetitions)
         {
-            Matrix<double> pattMatrix = createPatternMatrix();
-            Vector<double> resVector = calculatePowerProduct(pattMatrix, repetitions);
+            int[] startArr = new int[inDigits.Length];
 
-            string res = string.Join("", resVector.Skip(offset).Take(8).Select(x => (int)x));
+            Array.Copy(inDigits, startArr, inDigits.Length);
 
-            return res;
+            for (int i = 0; i < repetitions; i++)
+            {
+                startArr = transform2(startArr);
+            }
+            
+            return string.Join("", startArr.Take(8));
         }
     }
 }
