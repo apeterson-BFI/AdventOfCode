@@ -46,6 +46,16 @@ namespace Adv2020
             return countIntersections(ascii);
         }
 
+        public long getPart2Answer()
+        {
+            intCode.inputProvider = provideInput;
+            intCode.outputSink = receiveOutput;
+            
+
+
+            return 0;
+        }
+
         public long countIntersections(List<List<string>> map)
         {
             long accum = 0L;
