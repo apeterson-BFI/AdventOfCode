@@ -85,6 +85,13 @@ namespace Adv2020
                         .ToList();
         }
 
+        public static List<List<string>> readDayLinesAsCharGrid(int day)
+        {
+            var lines = readDayLines(day);
+
+            return lines.Select(l => l.ToCharArray().Select(c => new string(c, 1)).ToList()).ToList();
+        }
+
         public static List<SignedPoint> readLinesAsPoints(int day, char present)
         {
             List<SignedPoint> points = new List<SignedPoint>();
