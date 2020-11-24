@@ -23,7 +23,7 @@ namespace Adv2020
         internal int foundy;
 
         // 1 north, 2 south, 3 west, 4 east
-        internal long dir;
+        internal int dir;
 
         internal int dx;
         internal int dy;
@@ -31,6 +31,12 @@ namespace Adv2020
         internal Random rnm;
 
         internal Queue<Tuple<int, int, int>> visited;
+
+        internal int nextdir;
+
+        internal Stack<int> paths;
+
+        internal bool rewind;
 
         public Day15()
         {
@@ -40,9 +46,21 @@ namespace Adv2020
             x = 100;
             y = 100;
 
+            for(int i = 0; i < 200; i++)
+            {
+                for(int j = 0; j < 200; j++)
+                {
+                    map[i, j] = -1;
+                }
+            }
+
             dir = 1;
             dx = 0;
             dy = 1;
+
+            rewind = false;
+
+            paths = new Stack<int>();
         }
 
         public long getPart1Answer()
@@ -205,7 +223,24 @@ namespace Adv2020
 
         public long provideInput()
         {
-            setDirection();
+            if(dir == 5)
+            {
+                dir = paths.Pop();
+
+                setDeltas();
+                rewind = true;
+
+                if (dir == 1)
+                    return 2;
+                else if (dir == 2)
+                    return 1;
+                else if (dir == 3)
+                    return 4;
+                else if (dir == 4)
+                    return 3;
+            }
+
+            setDeltas();
             return dir;
         }
 
@@ -223,25 +258,34 @@ namespace Adv2020
 
         public void receiveOutput(long output)
         {
-            if(output == 0)
+            if(rewind)
+            {
+                x -= dx;
+                y -= dy;
+
+                return;
+            }
+
+            if (output == 0L)
             {
                 map[x + dx, y + dy] = 0;
+                dir++;
             }
-            else             
+            else
             {
-                if (output == 2)
+                if (map[x + dx, y + dy] != -1)
                 {
-                    intCode.abort = true;
-
-                    foundx = x + dx;
-                    foundy = y + dy;
-                    Console.WriteLine("Found it");
+                    dir = 5;
+                }
+                else
+                {
+                    map[x + dx, y + dy] = (int)output;
+                    paths.Push(dir);
+                    dir = 1;
                 }
 
                 x += dx;
                 y += dy;
-
-                map[x, y] = (int)output;
             }
         }
 
@@ -256,11 +300,6 @@ namespace Adv2020
             }
         }
 
-        private void setDirection()
-        {
-            dir = rnm.Next(1, 5);
 
-            setDeltas();
-        }
     }
 }

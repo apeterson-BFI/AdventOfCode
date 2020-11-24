@@ -12,20 +12,17 @@ namespace Adv2020
     {
         static void Main(string[] args)
         {
-            day17display();
+            day15display();
             Console.ReadLine();
         }
 
-        private static void day17display()
+        public static void day15display()
         {
-            Day17 d17 = new Day17();
-            long answer = d17.getPart1Answer();
+            Day15 d15 = new Day15();
+            long answer = d15.getPart2Answer();
 
-            Console.WriteLine("Answer: {0}", answer);
+            Console.WriteLine("Day 15: P2 {0}", answer);
 
-            answer = d17.getPart2Answer();
-
-            Console.WriteLine("Answer: {0}", answer);
         }
 
         #region Old Days
@@ -194,15 +191,6 @@ namespace Adv2020
             Console.WriteLine("Day 14: P2 {0}", answer);
         }
 
-        public static void day15display()
-        {
-            Day15 d15 = new Day15();
-            long answer = d15.getPart2Answer();
-
-            Console.WriteLine("Day 15: P2 {0}", answer);
-
-        }
-
         public static void day16display()
         {
             //Day16 dayTest = new Day16();
@@ -235,6 +223,19 @@ namespace Adv2020
 
             Console.WriteLine("R P2 Start   : {0}", result);
         }
+
+        private static void day17display()
+        {
+            Day17 d17 = new Day17();
+            long answer = d17.getPart1Answer();
+
+            Console.WriteLine("Answer: {0}", answer);
+
+            answer = d17.getPart2Answer();
+
+            Console.WriteLine("Answer: {0}", answer);
+        }
+
 
         #endregion
 
