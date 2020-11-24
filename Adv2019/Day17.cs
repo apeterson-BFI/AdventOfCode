@@ -17,12 +17,22 @@ namespace Adv2020
 
         internal List<List<string>> ascii;
 
+        internal long outputVal;
+
+        internal Queue<int> inputBuffer;
+
+        internal List<Tuple<int, int, string>> map;
+
         public Day17()
         {
             rnm = new Random();
             intCode = DayInput.readLinesAsIntCode(17, 100000);
             ascii = new List<List<string>>();
             ascii.Add(new List<string>());
+
+            inputBuffer = new Queue<int>();
+
+            outputVal = -1;
         }
 
         public long getPart1Answer()
@@ -48,12 +58,58 @@ namespace Adv2020
 
         public long getPart2Answer()
         {
+            string mainFunc;
+            string aFunc;
+            string bFunc;
+            string cFunc;
+
+            do
+            {
+                resetP2();
+
+                Console.WriteLine("Main Function:");
+                mainFunc = Console.ReadLine();
+                Console.WriteLine("A Function:");
+                aFunc = Console.ReadLine();
+                Console.WriteLine("B Function:");
+                bFunc = Console.ReadLine();
+                Console.WriteLine("C Function:");
+                cFunc = Console.ReadLine();
+
+                sendStringToAsciiInputBuffer(mainFunc);
+                sendStringToAsciiInputBuffer(aFunc);
+                sendStringToAsciiInputBuffer(bFunc);
+                sendStringToAsciiInputBuffer(cFunc);
+                sendStringToAsciiInputBuffer("n");
+
+                intCode.process();
+            } while (outputVal == -1);
+
+            return outputVal;
+        }
+
+        internal void sendStringToAsciiInputBuffer(string s)
+        {
+            if(s[s.Length - 1] != '\n')
+            {
+                s = s + "\n";
+            }
+
+            int cval;
+
+            for(int i = 0; i < s.Length; i++)
+            {
+                cval = Char.ConvertToUtf32(s.Substring(i, 1), 0);
+                inputBuffer.Enqueue(cval);
+            }
+        }
+
+        internal void resetP2()
+        {
+            intCode = DayInput.readLinesAsIntCode(17, 100000);
             intCode.inputProvider = provideInput;
             intCode.outputSink = receiveOutput;
-            
-
-
-            return 0;
+            intCode.memory[0] = 2;
         }
 
         public long countIntersections(List<List<string>> map)
@@ -87,11 +143,17 @@ namespace Adv2020
 
         public long provideInput()
         {
-            throw new NotImplementedException();
+            return inputBuffer.Dequeue();
         }
 
         public void receiveOutput(long output)
         {
+            if(output >= 256)
+            {
+                outputVal = output;
+                return;
+            }
+
             string s;
 
             if (output == 10)

@@ -21,8 +21,11 @@ namespace Adv2020
             Day17 d17 = new Day17();
             long answer = d17.getPart1Answer();
 
-            Console.WriteLine("Test Answer: {0}", answer);
-            //Console.WriteLine("Expected: {0}", 76);
+            Console.WriteLine("Answer: {0}", answer);
+
+            answer = d17.getPart2Answer();
+
+            Console.WriteLine("Answer: {0}", answer);
         }
 
         #region Old Days
