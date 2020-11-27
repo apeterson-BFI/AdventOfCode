@@ -45,7 +45,7 @@ namespace Adv2020
 
             int len = baseDigits.Length;
 
-            for(int i = 0; i < 10000; i++)
+            for(int i = 0; i < repeats; i++)
             {
                 Array.Copy(baseDigits, 0, resultDigits, i * len, len);
             }
