@@ -12,25 +12,14 @@ namespace Adv2020
     {
         static void Main(string[] args)
         {
-            Day28 d28 = new Day28();
+            Day29 d29 = new Day29();
+            long answer = d29.getPart1Answer();
 
-            Console.WriteLine("{0}", d28.getPart1Answer());
-            Console.WriteLine("{0}", d28.getPart2Answer());
+            Console.WriteLine("Day 2020-4 Part 2: {0}", answer);
 
             Console.ReadLine();
         }
 
-        public static void day27display()
-        {
-            Day27 d27 = new Day27();
-            int answer = d27.getPart1Answer();
-
-            Console.WriteLine("Day 2020-2 Part 1: {0}", answer);
-
-            answer = d27.getPart2Answer();
-
-            Console.WriteLine("Day 2020-2 Part 2: {0}", answer);
-        }
 
         #region Old Days
 
@@ -258,6 +247,19 @@ namespace Adv2020
             d26.getPart1Answer();
             d26.getPart2Answer();
         }
+
+        public static void day27display()
+        {
+            Day27 d27 = new Day27();
+            int answer = d27.getPart1Answer();
+
+            Console.WriteLine("Day 2020-2 Part 1: {0}", answer);
+
+            answer = d27.getPart2Answer();
+
+            Console.WriteLine("Day 2020-2 Part 2: {0}", answer);
+        }
+
 
         #endregion
 

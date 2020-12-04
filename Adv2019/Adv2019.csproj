@@ -66,6 +66,7 @@
     <Compile Include="Day26.cs" />
     <Compile Include="Day27.cs" />
     <Compile Include="Day28.cs" />
+    <Compile Include="Day29.cs" />
     <Compile Include="Day6.cs" />
     <Compile Include="Amplifier.cs" />
     <Compile Include="AmplifierChain.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="IntCode.cs" />
     <Compile Include="NumTextUtil.cs" />
     <Compile Include="Painter.cs" />
+    <Compile Include="Parser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignedPoint.cs" />
@@ -160,6 +162,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="day4input.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="day29input.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
