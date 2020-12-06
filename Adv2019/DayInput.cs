@@ -30,6 +30,33 @@ namespace Adv2020
             return readDayLines(day)[0];
         }
 
+        public static List<List<string>> readDayLinesAsParagraphs(int day)
+        {
+            string[] lines = readDayLines(day);
+            List<List<string>> paragraphs = new List<List<string>>();
+            List<string> paragraph = new List<string>();
+
+            foreach(var line in lines)
+            {
+                if (line == "")
+                {
+                    paragraphs.Add(paragraph);
+                    paragraph = new List<string>();
+                }
+                else
+                {
+                    paragraph.Add(line);
+                }
+            }
+
+            if(paragraph.Count > 0)
+            {
+                paragraphs.Add(paragraph);
+            }
+
+            return paragraphs;
+        }
+
         public static int[] readDayLineAsDigitInts(int day)
         {
             return readDayLine(day)
