@@ -69,6 +69,7 @@
     <Compile Include="Day29.cs" />
     <Compile Include="Day30.cs" />
     <Compile Include="Day31.cs" />
+    <Compile Include="Day32.cs" />
     <Compile Include="Day6.cs" />
     <Compile Include="Amplifier.cs" />
     <Compile Include="AmplifierChain.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignedPoint.cs" />
+    <Compile Include="WeightedGraphNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="day10input.txt">
@@ -142,6 +144,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="day31input.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="day32input.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="day5input.txt">

@@ -12,11 +12,11 @@ namespace Adv2020
     {
         static void Main(string[] args)
         {
-            Day31 d31 = new Day31();
-            long answer = d31.getPart1Answer();
-            Console.WriteLine("2020 Day 6 P1: {0}", answer);
-            answer = d31.getPart2Answer();
-            Console.WriteLine("2020 Day 6 P2: {0}", answer);
+            Day32 d32 = new Day32();
+            long answer = d32.getPart1Answer();
+            Console.WriteLine("2020 Day 7 P1: {0}", answer);
+            //answer = d32.getPart2Answer();
+            //Console.WriteLine("2020 Day 7 P2: {0}", answer);
             Console.ReadLine();
         }
 
