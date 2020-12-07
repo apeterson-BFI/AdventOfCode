@@ -15,8 +15,8 @@ namespace Adv2020
             Day32 d32 = new Day32();
             long answer = d32.getPart1Answer();
             Console.WriteLine("2020 Day 7 P1: {0}", answer);
-            //answer = d32.getPart2Answer();
-            //Console.WriteLine("2020 Day 7 P2: {0}", answer);
+            answer = d32.getPart2Answer();
+            Console.WriteLine("2020 Day 7 P2: {0}", answer);
             Console.ReadLine();
         }
 

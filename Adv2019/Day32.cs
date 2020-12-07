@@ -76,39 +76,57 @@ namespace Adv2020
         {
             WeightedGraphNode shinyGold = Nodes.First(x => x.Name == "shiny gold");
 
-            int newCount = 1;
+            bool found = true;
 
             Dictionary<string, WeightedGraphNode> nodeFound = new Dictionary<string, WeightedGraphNode>();
             nodeFound.Add("shiny gold", shinyGold);
 
-            List<WeightedGraphNode> newNodes = new List<WeightedGraphNode>();
-            newNodes.Add(shinyGold);
-
-            List<WeightedGraphNode> unqNodes = new List<WeightedGraphNode>();
-
-            while(newCount != 0)
+            while (found)
             {
-                newCount = 0;
-                newNodes = newNodes.SelectMany(n => n.Links.Select(l => l.Item1)).ToList();
+                found = false;
 
-                unqNodes = new List<WeightedGraphNode>();
-
-                foreach(var w in newNodes)
+                foreach(var wg in Nodes)
                 {
-                    if(!nodeFound.ContainsKey(w.Name))
+                    foreach(var l in wg.Links)
                     {
-                        nodeFound.Add(w.Name, w);
-                        newCount++;
-                        unqNodes.Add(w);
+                        if(nodeFound.ContainsKey(l.Item1.Name) && !nodeFound.ContainsKey(wg.Name))
+                        {
+                            found = true;
+                            nodeFound.Add(wg.Name, wg);
+                            break;
+                        }
                     }
-
-                    newNodes = unqNodes;
                 }
             }
 
-
             return nodeFound.Count() - 1;
+        }
 
+        public long getPart2Answer()
+        {
+            WeightedGraphNode shinyGold = Nodes.First(x => x.Name == "shiny gold");
+
+            List<Tuple<WeightedGraphNode, long>> unprocessed = new List<Tuple<WeightedGraphNode,long>>() { new Tuple<WeightedGraphNode, long>(shinyGold,1L) };
+
+            List<Tuple<WeightedGraphNode, long>> processed = new List<Tuple<WeightedGraphNode, long>>();
+
+            while(unprocessed.Count >= 1)
+            {
+                var t = unprocessed[0];
+
+                WeightedGraphNode w0 = t.Item1;
+                long qty = t.Item2;
+                unprocessed.RemoveAt(0);
+
+                foreach(Tuple<WeightedGraphNode, long> l in w0.Links)
+                {
+                    unprocessed.Add(new Tuple<WeightedGraphNode, long>(l.Item1, l.Item2 * qty));
+                }
+
+                processed.Add(t);
+            }
+
+            return processed.Sum(t => t.Item2) - 1;
         }
     }
 }
