@@ -24,7 +24,7 @@ namespace Adv2020
             else
                 day = -16;
 
-            inDigits = DayInput.readDayLineAsDigitInts(day);
+            inDigits = DayInput.readDayLineAsDigitInts(day, true);
         }
 
         public void setup2(bool live)
@@ -36,7 +36,7 @@ namespace Adv2020
             else
                 day = -16;
 
-            inDigits = DayInput.readDayLineAsDigitInts(day, 10000);
+            inDigits = DayInput.readDayLineAsDigitInts(day, true, 10000);
 
             int[] offArray = new int[7];
             Array.Copy(inDigits, offArray, 7);

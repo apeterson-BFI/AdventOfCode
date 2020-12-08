@@ -13,7 +13,7 @@ namespace Adv2020
 
         public Day9()
         {
-            var rom = DayInput.readDayLinesAsLongCSV(9, ',')[0];
+            var rom = DayInput.readDayLinesAsLongCSV(9, true, ',')[0];
 
             IntCode = new IntCode(rom);
         }

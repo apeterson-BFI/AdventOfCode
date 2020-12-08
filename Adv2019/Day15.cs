@@ -35,7 +35,7 @@ namespace Adv2020
         public Day15()
         {
             rnm = new Random();
-            intCode = DayInput.readLinesAsIntCode(15, 100000);
+            intCode = DayInput.readLinesAsIntCode(15, true, 100000);
             map = new int[200, 200];
             x = 100;
             y = 100;

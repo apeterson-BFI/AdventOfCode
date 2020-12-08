@@ -27,7 +27,7 @@ namespace Adv2020
 
         public Day13()
         {
-            intCode = DayInput.readLinesAsIntCode(13);
+            intCode = DayInput.readLinesAsIntCode(13, true);
             readNext = 0;
             lastX = 22;
             humanDone = false;

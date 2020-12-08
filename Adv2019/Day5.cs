@@ -13,7 +13,7 @@ namespace Adv2020
 
         public Day5()
         {
-            intCode = new IntCode(DayInput.readDayLinesAsLongCSV(5, ',')[0]);
+            intCode = new IntCode(DayInput.readDayLinesAsLongCSV(5, true, ',')[0]);
         }
 
         public long getPart1Answer()

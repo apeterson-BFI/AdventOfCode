@@ -20,7 +20,7 @@ namespace Adv2020
 
         private long search(Func<long, bool> validation)
         {
-            string line = DayInput.readDayLines(4)[0];
+            string line = DayInput.readDayLines(4, true)[0];
 
             List<long> bounds = line.Split('-').Select(v => Int64.Parse(v)).ToList();
 

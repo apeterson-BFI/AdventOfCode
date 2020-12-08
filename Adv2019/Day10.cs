@@ -19,7 +19,7 @@ namespace Adv2020
 
         public Day10()
         {
-            points = DayInput.readLinesAsPoints(10, '#');
+            points = DayInput.readLinesAsPoints(10, true, '#');
             dirSQPoints = new Dictionary<Tuple<int, int>, int>();
             relPoints = new SignedPoint[points.Count];
             dirSQLists = new Dictionary<Tuple<int, int>, List<int>>();

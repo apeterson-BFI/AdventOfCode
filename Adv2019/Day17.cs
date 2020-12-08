@@ -26,7 +26,7 @@ namespace Adv2020
         public Day17()
         {
             rnm = new Random();
-            intCode = DayInput.readLinesAsIntCode(17, 100000);
+            intCode = DayInput.readLinesAsIntCode(17, true, 100000);
             ascii = new List<List<string>>();
             ascii.Add(new List<string>());
 
@@ -106,7 +106,7 @@ namespace Adv2020
 
         internal void resetP2()
         {
-            intCode = DayInput.readLinesAsIntCode(17, 100000);
+            intCode = DayInput.readLinesAsIntCode(17, true, 100000);
             intCode.inputProvider = provideInput;
             intCode.outputSink = receiveOutput;
             intCode.memory[0] = 2;

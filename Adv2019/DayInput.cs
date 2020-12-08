@@ -9,13 +9,13 @@ namespace Adv2020
 {
     public static class DayInput
     {
-        public static string[] readDayLines(int day)
+        public static string[] readDayLines(int day, bool live)
         {
             string filename;
 
-            if (day < 0)
+            if (!live)
             {
-                filename = string.Format(@"day{0}sample.txt", -day);
+                filename = string.Format(@"day{0}sample.txt", day);
             }
             else
             {
@@ -25,14 +25,14 @@ namespace Adv2020
             return File.ReadAllLines(filename);
         }
 
-        public static string readDayLine(int day)
+        public static string readDayLine(int day, bool test)
         {
-            return readDayLines(day)[0];
+            return readDayLines(day, test)[0];
         }
 
-        public static List<List<string>> readDayLinesAsParagraphs(int day)
+        public static List<List<string>> readDayLinesAsParagraphs(int day, bool test)
         {
-            string[] lines = readDayLines(day);
+            string[] lines = readDayLines(day, test);
             List<List<string>> paragraphs = new List<List<string>>();
             List<string> paragraph = new List<string>();
 
@@ -57,16 +57,16 @@ namespace Adv2020
             return paragraphs;
         }
 
-        public static int[] readDayLineAsDigitInts(int day)
+        public static int[] readDayLineAsDigitInts(int day, bool test)
         {
-            return readDayLine(day)
+            return readDayLine(day, true)
                    .Select(c => (int)Char.GetNumericValue(c))
                    .ToArray();
         }
 
-        public static int[] readDayLineAsDigitInts(int day, int repeats)
+        public static int[] readDayLineAsDigitInts(int day, bool test, int repeats)
         {
-            int[] baseDigits = readDayLineAsDigitInts(day);
+            int[] baseDigits = readDayLineAsDigitInts(day, test);
 
             int[] resultDigits = new int[baseDigits.Length * repeats];
 
@@ -80,49 +80,49 @@ namespace Adv2020
             return resultDigits;
         }
 
-        public static List<long> readDayLinesAsLongs(int day)
+        public static List<long> readDayLinesAsLongs(int day, bool test)
         {
             return
-                readDayLines(day)
+                readDayLines(day, test)
                 .Select(l => Int64.Parse(l))
                 .ToList();
         }
 
-        public static List<List<int>> readDayLinesAsIntCSV(int day, char split)
+        public static List<List<int>> readDayLinesAsIntCSV(int day, bool test, char split)
         {
-            var lines = readDayLines(day);
+            var lines = readDayLines(day, test);
 
             return lines.Select(l => splitLineToIntCells(l, split))
                         .ToList();
         }
 
-        public static List<List<long>> readDayLinesAsLongCSV(int day, char split)
+        public static List<List<long>> readDayLinesAsLongCSV(int day, bool test, char split)
         {
-            var lines = readDayLines(day);
+            var lines = readDayLines(day, test);
 
             return lines.Select(l => splitLineToLongCells(l, split))
                         .ToList();
         }
 
-        public static List<List<string>> readDayLinesAsTextCSV(int day, char split)
+        public static List<List<string>> readDayLinesAsTextCSV(int day, bool test, char split)
         {
-            var lines = readDayLines(day);
+            var lines = readDayLines(day, test);
 
             return lines.Select(l => splitLineToTextCells(l, split))
                         .ToList();
         }
 
-        public static List<List<string>> readDayLinesAsCharGrid(int day)
+        public static List<List<string>> readDayLinesAsCharGrid(int day, bool test)
         {
-            var lines = readDayLines(day);
+            var lines = readDayLines(day, test);
 
             return lines.Select(l => l.ToCharArray().Select(c => new string(c, 1)).ToList()).ToList();
         }
 
-        public static List<SignedPoint> readLinesAsPoints(int day, char present)
+        public static List<SignedPoint> readLinesAsPoints(int day, bool test, char present)
         {
             List<SignedPoint> points = new List<SignedPoint>();
-            string[] dayLines = readDayLines(day);
+            string[] dayLines = readDayLines(day, test);
 
             for (int y = 0; y < dayLines.Length; y++)
             {
@@ -138,9 +138,9 @@ namespace Adv2020
             return points;
         }
 
-        public static IntCode readLinesAsIntCode(int day, int memSize = 65536)
+        public static IntCode readLinesAsIntCode(int day, bool test, int memSize = 65536)
         {
-            var rom = DayInput.readDayLinesAsLongCSV(day, ',')[0];
+            var rom = DayInput.readDayLinesAsLongCSV(day, test, ',')[0];
 
             IntCode intCode = new IntCode(rom, memSize);
 

@@ -13,7 +13,7 @@ namespace Adv2020
 
         public Day11()
         {
-            var intCode = DayInput.readLinesAsIntCode(11, 1000000);
+            var intCode = DayInput.readLinesAsIntCode(11, true, 1000000);
 
             Painter = new Painter(intCode);
         }

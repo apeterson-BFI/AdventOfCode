@@ -18,7 +18,7 @@ namespace Adv2020
 
         public Day29()
         {
-            lines = DayInput.readDayLines(29);
+            lines = DayInput.readDayLines(29, true);
             Passports = new List<Passport>();
             CurrentPassport = new Passport();
         }

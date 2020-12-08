@@ -12,7 +12,7 @@ namespace Adv2020
 
         public Day31()
         {
-            paragraphs = DayInput.readDayLinesAsParagraphs(31);
+            paragraphs = DayInput.readDayLinesAsParagraphs(31, true);
         }
 
         public long getPart1Answer()

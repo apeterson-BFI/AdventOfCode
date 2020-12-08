@@ -14,7 +14,7 @@ namespace Adv2020
 
         public Day30()
         {
-            boardingPasses = DayInput.readDayLines(30);
+            boardingPasses = DayInput.readDayLines(30, true);
             seatIDs = boardingPasses.Select(getSeatID).ToList();
         }
 

@@ -15,7 +15,7 @@ namespace Adv2020
 
         public Day14()
         {
-            lines = DayInput.readDayLines(14);
+            lines = DayInput.readDayLines(14, true);
             Reactions = lines.Select(l => Reaction.parseLine(l)).ToList();
         }
 

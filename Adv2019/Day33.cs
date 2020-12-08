@@ -17,7 +17,7 @@ namespace Adv2020
 
         public Day33()
         {
-            string[] lines = DayInput.readDayLines(33);
+            string[] lines = DayInput.readDayLines(33, true);
 
             string cmd;
             int num;

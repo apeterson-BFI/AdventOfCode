@@ -12,7 +12,7 @@ namespace Adv2020
 
         public Day7()
         {
-            chain = new AmplifierChain(DayInput.readDayLinesAsLongCSV(7, ',')[0]);
+            chain = new AmplifierChain(DayInput.readDayLinesAsLongCSV(7, true, ',')[0]);
         }
 
         public long getPart1Answer()

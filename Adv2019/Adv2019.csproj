@@ -84,6 +84,8 @@
     <Compile Include="Day7.cs" />
     <Compile Include="Day9.cs" />
     <Compile Include="DayInput.cs" />
+    <Compile Include="DayN98.cs" />
+    <Compile Include="DayN99.cs" />
     <Compile Include="DirGraphMaster.cs" />
     <Compile Include="DirGraphNode.cs" />
     <Compile Include="IntCode.cs" />
@@ -96,6 +98,12 @@
     <Compile Include="WeightedGraphNode.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="day-98input.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="day-99input.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="day10input.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

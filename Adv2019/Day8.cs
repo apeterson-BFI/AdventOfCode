@@ -22,7 +22,7 @@ namespace Adv2020
             Width = width;
             Height = height;
 
-            string line = DayInput.readDayLine(8);
+            string line = DayInput.readDayLine(8, true);
             char[] chars = line.ToCharArray();
 
             Layers = new List<Layer>();

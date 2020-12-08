@@ -12,7 +12,7 @@ namespace Adv2020
 
         public Day28()
         {
-            grid = DayInput.readDayLinesAsCharGrid(28);
+            grid = DayInput.readDayLinesAsCharGrid(28, true);
         }
 
         public long getPart1Answer()

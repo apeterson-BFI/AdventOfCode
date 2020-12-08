@@ -19,7 +19,7 @@ namespace Adv2020
 
         public Day27()
         {
-            lines = DayInput.readDayLines(27);
+            lines = DayInput.readDayLines(27, true);
 
             policies = new List<PasswordPolicy>();
 

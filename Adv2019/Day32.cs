@@ -18,7 +18,7 @@ namespace Adv2020
 
         public Day32()
         {
-            lines = DayInput.readDayLines(32);
+            lines = DayInput.readDayLines(32, true);
             setup();
         }
 

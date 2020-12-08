@@ -16,7 +16,7 @@ namespace Adv2020
         {
             master = new DirGraphMaster<string>();
 
-            rawConnections = DayInput.readDayLines(6).Select(l => l.Split(')')).ToList();
+            rawConnections = DayInput.readDayLines(6, true).Select(l => l.Split(')')).ToList();
         }
 
         public void part1Setup()

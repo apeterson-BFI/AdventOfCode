@@ -21,7 +21,7 @@ namespace Adv2020
             // <x=-3, y=18, z=9>
 
 
-            baseOrbiters = DayInput.readDayLines(12)
+            baseOrbiters = DayInput.readDayLines(12, true)
                                              .Select(x => readLine(x))
                                              .ToList();
 

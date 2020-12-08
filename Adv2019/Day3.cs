@@ -37,7 +37,7 @@ namespace Adv2020
 
         public List<Wire> readLinesAsWires()
         {
-            var textCSV = DayInput.readDayLinesAsTextCSV(3, ',');
+            var textCSV = DayInput.readDayLinesAsTextCSV(3, true, ',');
 
             return
                 textCSV.Select(l => new Wire() { Instructions = l.Select(c => new DirInstruction(c[0], Int32.Parse(c.Substring(1)))).ToList() }).ToList();

@@ -13,7 +13,7 @@ namespace Adv2020
 
         public Day26()
         {
-            vals = DayInput.readDayLinesAsLongs(26);
+            vals = DayInput.readDayLinesAsLongs(26, true);
         }
 
         public long getPart1Answer()

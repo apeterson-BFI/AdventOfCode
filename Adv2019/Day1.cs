@@ -10,14 +10,14 @@ namespace Adv2020
     {
         public long getPart1Answer()
         {
-            List<long> modules = DayInput.readDayLinesAsLongs(1);
+            List<long> modules = DayInput.readDayLinesAsLongs(1, true);
 
             return modules.Sum(m => getFuelCost(m));
         }
 
         public long getPart2Answer()
         {
-            List<long> modules = DayInput.readDayLinesAsLongs(1);
+            List<long> modules = DayInput.readDayLinesAsLongs(1, true);
 
             return modules.Sum(m => getRecursiveFuelCost(m));
         }
