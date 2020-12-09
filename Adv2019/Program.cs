@@ -20,7 +20,6 @@ namespace Adv2020
             Console.ReadLine();
         }
 
-
         #region Old Days
 
         private static void day1Display()

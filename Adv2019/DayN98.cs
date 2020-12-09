@@ -45,6 +45,11 @@ namespace Adv2020
 
         public long mid3(long a, long b, long c)
         {
+            if (a == b || a == c)
+                return a;
+            else if (b == c)
+                return b;
+
             // Checking for b 
             if ((a < b && b < c) || (c < b && b < a))
                 return b;
