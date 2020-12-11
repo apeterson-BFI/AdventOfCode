@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Adv2020
 {
@@ -12,13 +13,19 @@ namespace Adv2020
     {
         static void Main(string[] args)
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             Day36 d = new Day36();
             long answer = d.getPart1Answer();
-            Console.WriteLine("2020 Day 11 P1: {0}", answer);
+            sw.Stop();
+            Console.WriteLine("2020 Day 11 P1: {0} - time: {1}", answer, sw.ElapsedMilliseconds);
 
+            sw.Reset();
+            sw.Start();
             d = new Day36();
             answer = d.getPart2Answer();
-            Console.WriteLine("2020 Day 11 P2: {0}", answer);
+            sw.Stop();
+            Console.WriteLine("2020 Day 11 P2: {0} - time: {1}", answer, sw.ElapsedMilliseconds);
             Console.ReadLine();
         }
 
