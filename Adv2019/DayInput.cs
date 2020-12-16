@@ -154,7 +154,7 @@ namespace Adv2020
             return splits.Select(s => Int32.Parse(s)).ToList();
         }
 
-        private static List<long> splitLineToLongCells(string line, char split)
+        internal static List<long> splitLineToLongCells(string line, char split)
         {
             var splits = line.Split(split);
 
