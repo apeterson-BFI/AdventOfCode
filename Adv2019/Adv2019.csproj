@@ -81,6 +81,7 @@
     <Compile Include="Day40.cs" />
     <Compile Include="Day41.cs" />
     <Compile Include="Day42.cs" />
+    <Compile Include="Day43.cs" />
     <Compile Include="Day6.cs" />
     <Compile Include="Amplifier.cs" />
     <Compile Include="AmplifierChain.cs" />
@@ -199,6 +200,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="day42input.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="day43input.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="day5input.txt">
