@@ -17,8 +17,8 @@ namespace Adv2020
             long answer = d.getPart1Answer();
             Console.WriteLine("2020 Day 18 P1: {0}", answer);
 
-//            answer = d.getPart2Answer();
-//            Console.WriteLine("2020 Day 17 P2: {0}", answer);
+            answer = d.getPart2Answer();
+            Console.WriteLine("2020 Day 17 P2: {0}", answer);
             Console.ReadLine();
         }
 

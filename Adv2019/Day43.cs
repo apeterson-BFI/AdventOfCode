@@ -32,8 +32,7 @@ namespace Adv2020
             {
                 index = 0;
 
-                linev = calcLine(line);
-                Console.WriteLine("Line {0} = {1}", linen, linev);
+                linev = calcLine1(line);
                 accum += linev;
                 linen++;
             }
@@ -43,10 +42,23 @@ namespace Adv2020
 
         public long getPart2Answer()
         {
+            long linev = 0L;
+            long accum = 0L;
+            int linen = 0;
 
+            foreach (string line in lines)
+            {
+                index = 0;
+
+                linev = calcLine2(line);
+                accum += linev;
+                linen++;
+            }
+
+            return accum;
         }
 
-        internal long calcLine(string line)
+        internal long calcLine1(string line)
         {
             ReadMode mode = ReadMode.ReadLeft;
 
@@ -98,13 +110,13 @@ namespace Adv2020
                 else if (mode == ReadMode.ReadLeft && work == "(")
                 {
                     index++;
-                    left = calcLine(line);
+                    left = calcLine1(line);
                     mode = ReadMode.ReadOp;
                 }
                 else if (mode == ReadMode.ReadRight && work == "(")
                 {
                     index++;
-                    right = calcLine(line);
+                    right = calcLine1(line);
 
                     if (op == "+")
                     {
@@ -139,6 +151,156 @@ namespace Adv2020
                 return left;
             }
         }
+
+        internal long calcLine2(string line)
+        {
+            ReadMode2 mode = ReadMode2.ReadLeft;
+
+            string work;
+            string op1 = "";
+            string op2 = "";
+            long left = 0L;
+            long mid = 0L;
+            long right = 0L;
+
+            while (index < line.Length && line[index] != ')')
+            {
+                work = line.Substring(index, 1);
+
+                if (work == " ")
+                {
+                    index++;
+                    continue;
+                }
+
+                if (mode == ReadMode2.ReadOp1 && opRegex.IsMatch(work))
+                {
+                    op1 = work;
+                    index++;
+                    mode = ReadMode2.ReadMid;
+                }
+                else if(mode == ReadMode2.ReadOp2 && opRegex.IsMatch(work))
+                {
+                    op2 = work;
+                    index++;
+                    mode = ReadMode2.ReadRight;
+                }
+                else if (mode == ReadMode2.ReadLeft && digitRegex.IsMatch(work))
+                {
+                    left = Int64.Parse(work);
+                    index++;
+                    mode = ReadMode2.ReadOp1;
+                }
+                else if (mode == ReadMode2.ReadMid && digitRegex.IsMatch(work))
+                {
+                    mid = Int64.Parse(work);
+
+                    if (op1 == "+")
+                    {
+                        left = left + mid;
+                        mode = ReadMode2.ReadOp1;
+                    }
+                    else
+                    {
+                        mode = ReadMode2.ReadOp2;
+                    }
+
+                    index++;
+                }
+                else if(mode == ReadMode2.ReadRight && digitRegex.IsMatch(work))
+                {
+                    right = Int64.Parse(work);
+
+                    if (op2 == "+")
+                    {
+                        mid = mid + right;
+                        mode = ReadMode2.ReadOp2;
+                    }
+                    else
+                    {
+                        left = left * mid;
+                        mid = right;
+
+                        mode = ReadMode2.ReadOp2;
+                    }
+
+                    index++;
+                }
+                else if (mode == ReadMode2.ReadLeft && work == "(")
+                {
+                    index++;
+                    left = calcLine2(line);
+                    mode = ReadMode2.ReadOp1;
+                }
+                else if (mode == ReadMode2.ReadMid && work == "(")
+                {
+                    index++;
+                    mid = calcLine2(line);
+
+                    if (op1 == "+")
+                    {
+                        left = left + mid;
+                        mode = ReadMode2.ReadOp1;
+                    }
+                    else
+                    {
+                        mode = ReadMode2.ReadOp2;
+                    }
+                }
+                else if(mode == ReadMode2.ReadRight && work == "(")
+                {
+                    index++;
+                    right = calcLine2(line);
+
+                    if (op2 == "+")
+                    {
+                        mid = mid + right;
+                        mode = ReadMode2.ReadOp2;
+                    }
+                    else
+                    {
+                        left = left * mid;
+                        mid = right;
+                        op1 = op2;
+
+                        mode = ReadMode2.ReadOp2;
+                    }
+                }
+                else
+                    throw new Exception("Unknown state");
+            }
+
+            if (index < line.Length && line[index] == ')')
+            {
+                index++;
+            }
+
+            if (mode == ReadMode2.ReadOp1)
+            {
+                return left;
+            }
+            else if(mode == ReadMode2.ReadOp2)
+            {
+                if(op1 == "+")
+                {
+                    left = left + mid;
+                    return left;
+                }
+                else if(op1 == "*")
+                {
+                    left = left * mid;
+                    return left;
+                }
+                else
+                {
+                    throw new Exception("Unknown op");
+                }
+            }
+            else
+            { 
+                throw new Exception("Bad parse rparen");
+            }
+        }
     }
 
     public enum ReadMode
@@ -146,5 +308,14 @@ namespace Adv2020
         ReadLeft,
         ReadOp,
         ReadRight,
+    }
+
+    public enum ReadMode2
+    {
+        ReadLeft,
+        ReadOp1,
+        ReadMid,
+        ReadOp2,
+        ReadRight
     }
 }
