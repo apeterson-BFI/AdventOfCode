@@ -13,13 +13,12 @@ namespace Adv2020
     {
         static void Main(string[] args)
         {
-            Day45 d = new Day45();
-            long answer = d.getPart1Answer();
-            Console.WriteLine("2020 Day 19 P1: {0}", answer);
+            Day53 d = new Day53();
+            UInt32 answer = d.doPart1();
+            Console.WriteLine("2021 Day 3 P1: Gamma {0}, Epsilon {1} result {2}", d.gamma, d.epsilon, answer);
 
-//            d = new Day44();
-//            answer = d.getPart2Answer();
-//            Console.WriteLine("2020 Day 19 P2: {0}", answer);
+            answer = d.doPart2();
+            Console.WriteLine("2021 Day 19 P2: Oxygen {0}, CO2 {1}, Result {2}", d.oxygen, d.co2, answer);
             Console.ReadLine();
         }
 

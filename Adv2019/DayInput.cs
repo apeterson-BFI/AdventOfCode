@@ -12,7 +12,7 @@ namespace Adv2020
         public static string[] readDayLines(int day, bool live)
         {
             string filename;
-
+            
             if (!live)
             {
                 filename = string.Format(@"day{0}sample.txt", day);
@@ -28,6 +28,13 @@ namespace Adv2020
         public static string readDayLine(int day, bool live)
         {
             return readDayLines(day, live)[0];
+        }
+
+        public static List<UInt32> readBinaryDayLine(int day, bool live)
+        {
+            var lines = readDayLines(day, live);
+
+            return lines.Select(x => Convert.ToUInt32(x, 2)).ToList();
         }
 
         public static List<List<string>> readDayLinesAsParagraphs(int day, bool live)
